@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
         inputs:
             version:
-                description: 'Version to publish (e.g. 0.3.1-beta.7 or v0.3.1-beta.7)'
+                description: 'meili_flutter_car version to publish (e.g. 0.8.0 or v0.8.0)'
                 required: true
                 type: string
             release_notes:
@@ -30,6 +30,11 @@ jobs:
                   ref: main
                   fetch-depth: 0
 
+            # Only the app-facing meili_flutter_car version is driven by this workflow's input.
+            # meili_flutter_car_ios, meili_flutter_car_android and
+            # meili_flutter_car_platform_interface version independently — each is bumped in its
+            # own pubspec.yaml by the PR that changes it, and this workflow publishes whatever
+            # version is already committed there.
             - name: Get version and release info
               id: release_info
               run: |
@@ -52,36 +57,21 @@ jobs:
                     exit 1
                   fi
 
-                  # Android package uses 0.3.0-beta.N while the app-facing package uses 0.3.1-beta.N.
-                  if [[ "$VERSION" =~ ^0\.3\.1-beta\. ]]; then
-                    ANDROID_VERSION=$(echo "$VERSION" | sed -E 's/^0\.3\.1-beta\./0.3.0-beta./')
-                  elif [[ "$VERSION" == "0.3.1" ]]; then
-                    ANDROID_VERSION="0.3.0"
-                  else
-                    echo "Unsupported VERSION scheme for ANDROID_VERSION derivation: $VERSION"
-                    echo "Expected 0.3.1-beta.N or 0.3.1"
-                    exit 1
-                  fi
-
                   echo "VERSION=$VERSION" >> $GITHUB_ENV
-                  echo "ANDROID_VERSION=$ANDROID_VERSION" >> $GITHUB_ENV
-                  echo "Publishing meili_flutter=$VERSION, meili_flutter_android=$ANDROID_VERSION, meili_flutter_ios=$VERSION"
+                  echo "Publishing meili_flutter_car=$VERSION"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Update CHANGELOG.md
               run: |
-                  changelog=meili_flutter/CHANGELOG.md
+                  changelog=meili_flutter_car/CHANGELOG.md
                   touch "$changelog"
                   echo -e "## $VERSION ($(date +%Y-%m-%d))\n\n$RELEASE_BODY\n\n$(cat "$changelog")" > "$changelog"
 
-            - name: Update version in pubspec files
+            - name: Update version in pubspec.yaml
               run: |
-                  export VERSION ANDROID_VERSION
-
-                  yq -i '.version = env(VERSION)' meili_flutter/pubspec.yaml
-                  yq -i '.version = env(ANDROID_VERSION)' meili_flutter_android/pubspec.yaml
-                  yq -i '.version = env(VERSION)' meili_flutter_ios/pubspec.yaml
+                  export VERSION
+                  yq -i '.version = env(VERSION)' meili_flutter_car/pubspec.yaml
 
             - name: Update README versions
               run: |
@@ -89,12 +79,10 @@ jobs:
                   update_readme() {
                     local file="$1"
                     [ -f "$file" ] || return 0
-                    sed -i -E "s#(meili_flutter: \^?)${semver}#\1${VERSION}#" "$file"
-                    sed -i -E "s#(meili_flutter_android: \^?)${semver}#\1${ANDROID_VERSION}#" "$file"
-                    sed -i -E "s#(meili_flutter_ios: \^?)${semver}#\1${VERSION}#" "$file"
+                    sed -i -E "s#(meili_flutter_car: \^?)${semver}#\1${VERSION}#" "$file"
                   }
                   update_readme README.md
-                  update_readme meili_flutter/README.md
+                  update_readme meili_flutter_car/README.md
 
             - name: Setup Flutter
               uses: subosito/flutter-action@v2
@@ -104,39 +92,49 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  # Sibling packages are not on pub.dev yet — resolve locally for verify.
+                  # Sibling packages may not be on pub.dev yet (always true for the very first
+                  # release of a renamed package) — resolve locally for verify. Each override file
+                  # is removed right before that specific package is published, since `dart pub
+                  # publish` refuses to run with an active dependency_overrides.
                   {
                     echo 'dependency_overrides:'
-                    echo '  meili_flutter_android:'
-                    echo '    path: ../meili_flutter_android'
-                    echo '  meili_flutter_ios:'
-                    echo '    path: ../meili_flutter_ios'
-                    echo '  meili_flutter_platform_interface:'
-                    echo '    path: ../meili_flutter_platform_interface'
-                  } > meili_flutter/pubspec_overrides.yaml
+                    echo '  meili_flutter_car_platform_interface:'
+                    echo '    path: ../meili_flutter_car_platform_interface'
+                  } > meili_flutter_car_ios/pubspec_overrides.yaml
+                  cp meili_flutter_car_ios/pubspec_overrides.yaml meili_flutter_car_android/pubspec_overrides.yaml
 
-                  for pkg in meili_flutter_platform_interface meili_flutter_android meili_flutter_ios meili_flutter; do
+                  {
+                    echo 'dependency_overrides:'
+                    echo '  meili_flutter_car_android:'
+                    echo '    path: ../meili_flutter_car_android'
+                    echo '  meili_flutter_car_ios:'
+                    echo '    path: ../meili_flutter_car_ios'
+                    echo '  meili_flutter_car_platform_interface:'
+                    echo '    path: ../meili_flutter_car_platform_interface'
+                  } > meili_flutter_car/pubspec_overrides.yaml
+
+                  for pkg in meili_flutter_car_platform_interface meili_flutter_car_android meili_flutter_car_ios meili_flutter_car; do
                     echo "flutter pub get in $pkg"
                     (cd "$pkg" && flutter pub get)
                   done
 
             - name: Verify package
               run: |
-                  for pkg in meili_flutter_platform_interface meili_flutter_android meili_flutter_ios meili_flutter; do
+                  for pkg in meili_flutter_car_platform_interface meili_flutter_car_android meili_flutter_car_ios meili_flutter_car; do
                     echo "flutter analyze in $pkg"
                     (cd "$pkg" && flutter analyze --no-fatal-infos)
                   done
 
-                  for pkg in meili_flutter_platform_interface meili_flutter; do
+                  for pkg in meili_flutter_car_platform_interface meili_flutter_car; do
                     echo "flutter test in $pkg"
                     (cd "$pkg" && flutter test)
                   done
 
                   dart format --set-exit-if-changed \
-                    meili_flutter_platform_interface \
-                    meili_flutter_android \
-                    meili_flutter_ios \
-                    meili_flutter
+                    meili_flutter_car_platform_interface \
+                    meili_flutter_car_android \
+                    meili_flutter_car_ios \
+                    meili_flutter_car
 
             - name: Setup Pub Credentials
               env:
@@ -167,6 +165,8 @@ jobs:
                   publish_if_needed() {
                     local dir="$1"
                     local name version
+                    # dart pub publish refuses to run with an active dependency_overrides.
+                    rm -f "$dir/pubspec_overrides.yaml"
                     name=$(yq -r '.name' "$dir/pubspec.yaml")
                     version=$(yq -r '.version' "$dir/pubspec.yaml")
 
@@ -196,22 +196,15 @@ jobs:
                     return "$status"
                   }
 
-                  # Platform packages first so meili_flutter can resolve them from pub.dev.
-                  # Bump meili_flutter_platform_interface manually when its API changes.
-                  if [ -d meili_flutter_platform_interface ]; then publish_if_needed meili_flutter_platform_interface; fi
-                  if [ -d meili_flutter_android ]; then publish_if_needed meili_flutter_android; fi
-                  if [ -d meili_flutter_ios ]; then publish_if_needed meili_flutter_ios; fi
-
-                  export VERSION ANDROID_VERSION
-
-                  rm -f meili_flutter/pubspec_overrides.yaml
-
-                  yq -i '.dependencies.meili_flutter_android = "^" + env(ANDROID_VERSION)' meili_flutter/pubspec.yaml
-                  yq -i '.dependencies.meili_flutter_ios = "^" + env(VERSION)' meili_flutter/pubspec.yaml
+                  # Platform packages first so meili_flutter_car can resolve them from pub.dev.
+                  # Each bumps its own pubspec.yaml manually when its API or native pin changes.
+                  if [ -d meili_flutter_car_platform_interface ]; then publish_if_needed meili_flutter_car_platform_interface; fi
+                  if [ -d meili_flutter_car_android ]; then publish_if_needed meili_flutter_car_android; fi
+                  if [ -d meili_flutter_car_ios ]; then publish_if_needed meili_flutter_car_ios; fi
 
                   for attempt in 1 2 3 4 5 6; do
-                    echo "flutter pub get in meili_flutter (pub.dev resolution, attempt $attempt)"
-                    if (cd meili_flutter && flutter pub get); then
+                    echo "flutter pub get in meili_flutter_car (pub.dev resolution, attempt $attempt)"
+                    if (cd meili_flutter_car && flutter pub get); then
                       break
                     fi
                     if [ "$attempt" -eq 6 ]; then
@@ -222,13 +215,13 @@ jobs:
                     sleep 30
                   done
 
-                  publish_if_needed meili_flutter
+                  publish_if_needed meili_flutter_car
 
             - name: Commit updates
               run: |
                   git config --local user.email "github-actions[bot]@users.noreply.github.com"
                   git config --local user.name "github-actions[bot]"
-                  git add meili_flutter/CHANGELOG.md meili_flutter/pubspec.yaml meili_flutter_android/pubspec.yaml meili_flutter_ios/pubspec.yaml README.md meili_flutter/README.md
+                  git add meili_flutter_car/CHANGELOG.md meili_flutter_car/pubspec.yaml README.md meili_flutter_car/README.md
                   git commit -m "MPD-0: release version $VERSION" || echo "No changes to commit"
                   git pull --rebase origin main
                   git push origin main
