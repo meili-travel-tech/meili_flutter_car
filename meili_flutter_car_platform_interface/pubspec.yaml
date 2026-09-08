@@ -1,0 +1,19 @@
+name: meili_flutter_car_platform_interface
+description: A common platform interface for the meili_flutter_car plugin.
+version: 0.5.0
+
+homepage: https://github.com/meili-travel-tech/flutter_meili
+repository: https://github.com/meili-travel-tech/flutter_meili
+
+environment:
+  sdk: ^3.4.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^6.0.0
