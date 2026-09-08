@@ -12,8 +12,8 @@ class MeiliCar {
   /// forwarded analytics ([MeiliCarAnalyticsEvent]).
   ///
   /// Events emitted before the first listener subscribes are dropped.
-  /// Currently sourced from iOS only; on Android the stream is open but
-  /// emits nothing until the Android native layer forwards events.
+  /// Both platforms forward the lifecycle events; forwarded analytics
+  /// events are currently iOS-only.
   static Stream<MeiliCarEvent> get events =>
       MeiliCarFlutterPlatform.instance.events;
 

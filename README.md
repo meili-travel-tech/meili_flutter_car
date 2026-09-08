@@ -159,18 +159,8 @@ class _MyPageState extends State<MyPage> {
 
 ## Migrating from `meili_flutter`
 
-`meili_flutter` is renamed to `meili_flutter_car` (part of [Meili's product-scoped
-SDK naming](https://github.com/meili-travel-tech/flutter_meili) — a future hotel
-product gets its own `meili_flutter_hotel` plugin). `meili_flutter` 0.7.x stays
-published and frozen, so an existing pin keeps resolving until you move. The
-move is three edits:
-
-1. **Dependency name**: `meili_flutter: ^0.7.0` → `meili_flutter_car: ^0.8.0` in `pubspec.yaml`.
-2. **Import path**: `package:meili_flutter/meili_flutter.dart` → `package:meili_flutter_car/meili_flutter_car.dart`.
-3. **Call sites**: `Meili.` → `MeiliCar.`, and `Meili.openMeiliView(MeiliParams(...))` → `MeiliCar.open(MeiliCarParams(...))`.
-
-Behaviour is unchanged; see `meili_flutter_car/CHANGELOG.md` for the full symbol
-rename table.
+See [Migrating from `meili_flutter`](meili_flutter_car/README.md#migrating-from-meili_flutter)
+in the `meili_flutter_car` README for the full migration steps.
 
 ## Contributing
 

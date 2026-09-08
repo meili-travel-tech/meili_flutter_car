@@ -29,17 +29,6 @@ void main() {
     testWidgets(
         'MeiliCar.open() presents the funnel over the renamed native chain '
         'and MeiliCar.popToRoot() round-trips', (tester) async {
-      // Proves the Phase 4 chain end to end: the Dart call resolves through
-      // MeiliCarFlutterPlatform -> the `meili_flutter_car` MethodChannel ->
-      // the renamed native plugin -> MeiliCarActivity (Android) /
-      // MeiliCarView (iOS) without throwing. The SDK presents its UI outside
-      // Flutter's own widget/view tree (a separate Activity on Android, a
-      // modally-presented UIViewController on iOS), so WidgetTester — which
-      // only dispatches synthetic pointer events into the Flutter engine —
-      // cannot drive that native chrome to interact with or dismiss it; an
-      // assertion on a real `MeiliCarFlowDismissed` event would need
-      // native-level UI automation (e.g. XCUITest/Espresso via a package like
-      // patrol), which is out of scope here.
       final events = <MeiliCarEvent>[];
       final subscription = MeiliCar.events.listen(events.add);
       addTearDown(subscription.cancel);
@@ -49,26 +38,15 @@ void main() {
 
       await tester.tap(find.text('Launch MeiliCar'));
 
-      // On Android, MeiliCarActivity is a separate foreground Activity, so
-      // the test's own FlutterEngine (and its frame scheduling) pauses the
-      // moment it launches — `pumpAndSettle` never sees another frame and
-      // hangs forever waiting for one. `tester.runAsync` escapes the fake
-      // async zone so real timers (and the method channel round trip) still
-      // resolve while paused. A `.timeout()` bounds the whole wait in case a
-      // channel call never returns while the engine is paused, rather than
-      // hanging the suite; a timeout is treated the same as "no event
-      // observed in time", not a test failure.
+      // The SDK's UI is a separate Activity (Android) / a modally presented
+      // controller (iOS) outside Flutter's widget tree, so the engine pauses
+      // once it launches and `pumpAndSettle` would never settle. `runAsync`
+      // escapes the fake async zone so the channel round trip still
+      // resolves while paused; the `.timeout()` bounds the wait instead of
+      // hanging the suite if it doesn't.
       await tester.runAsync(() async {
         await Future<void>.delayed(const Duration(seconds: 5));
-
-        // popToRoot() is a no-op with nothing retained (Direct flow, no
-        // bookingFlowEnded yet) — this only proves the renamed `popToRoot`
-        // channel call resolves without throwing.
         await MeiliCar.popToRoot();
-
-        // Best-effort: if the SDK auto-dismissed (e.g. a message state due
-        // to no network in the test environment) within a short window, a
-        // MeiliCarFlowDismissed event will already be in the buffer.
         await Future<void>.delayed(const Duration(seconds: 2));
       }).timeout(
         const Duration(seconds: 30),
@@ -78,6 +56,7 @@ void main() {
         },
       );
       await tester.pump();
+      expect(find.text('Launch MeiliCar'), findsOneWidget);
       // ignore: avoid_print
       print('MeiliCar events observed after open()+popToRoot(): $events');
     });

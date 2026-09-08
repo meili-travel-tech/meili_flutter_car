@@ -10,7 +10,8 @@ Key APIs
 - `MeiliCar.events` is a broadcast `Stream<MeiliCarEvent>` sourced from the
   `meili_flutter_car/events` EventChannel — lifecycle events
   (`MeiliCarFlowDismissed`, `MeiliCarBookingFlowEnded`) plus forwarded
-  analytics (`MeiliCarAnalyticsEvent`). Currently sourced from iOS only; see
+  analytics (`MeiliCarAnalyticsEvent`). Both platforms forward the lifecycle
+  events; forwarded analytics events are iOS-only for now — see
   `meili_flutter_car_android/AI.md`.
 - `MeiliCar.popToRoot()` invokes the SDK's retained `popToRoot` action,
   typically in response to a `MeiliCarBookingFlowEnded` event.

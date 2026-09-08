@@ -46,7 +46,7 @@ void main() {
       expect(mock.poppedToRoot, isTrue);
     });
 
-    test('events surfaces emitted MeiliEvents', () {
+    test('events surfaces emitted MeiliCarEvents', () {
       expect(
         MeiliCarFlutterPlatform.instance.events,
         emitsInOrder(<Matcher>[
