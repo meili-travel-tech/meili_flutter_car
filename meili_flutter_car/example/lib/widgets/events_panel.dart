@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:meili_flutter/meili_flutter.dart';
-import 'package:meili_flutter_example/events_view_model.dart';
+import 'package:meili_flutter_car/meili_flutter_car.dart';
+import 'package:meili_flutter_car_example/events_view_model.dart';
 
-/// A dumb view that renders the live Meili event log from an [EventsViewModel].
+/// A dumb view that renders the live MeiliCar event log from an
+/// [EventsViewModel].
 class EventsPanel extends StatelessWidget {
   /// Creates an events panel bound to [viewModel].
   const EventsPanel({required this.viewModel, super.key});
@@ -20,7 +21,7 @@ class EventsPanel extends StatelessWidget {
           return const Padding(
             padding: EdgeInsets.all(16),
             child: Text(
-              'No Meili events yet. Open a flow to see events arrive here.',
+              'No MeiliCar events yet. Open a flow to see events arrive here.',
             ),
           );
         }
@@ -43,7 +44,7 @@ class EventsPanel extends StatelessWidget {
 class _EventTile extends StatelessWidget {
   const _EventTile({required this.event, super.key});
 
-  final MeiliEvent event;
+  final MeiliCarEvent event;
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +56,14 @@ class _EventTile extends StatelessWidget {
   }
 
   String get _title => switch (event) {
-        MeiliFlowDismissed() => 'Flow dismissed',
-        MeiliBookingFlowEnded() => 'Booking flow ended',
-        MeiliAnalyticsEvent(:final name) => 'Analytics · $name',
-        MeiliUnknownEvent(:final type) => 'Unknown · $type',
+        MeiliCarFlowDismissed() => 'Flow dismissed',
+        MeiliCarBookingFlowEnded() => 'Booking flow ended',
+        MeiliCarAnalyticsEvent(:final name) => 'Analytics · $name',
+        MeiliCarUnknownEvent(:final type) => 'Unknown · $type',
       };
 
   String? get _subtitle => switch (event) {
-        MeiliAnalyticsEvent(:final properties) =>
+        MeiliCarAnalyticsEvent(:final properties) =>
           properties.isEmpty ? null : properties.toString(),
         _ => null,
       };

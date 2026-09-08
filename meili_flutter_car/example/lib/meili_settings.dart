@@ -1,9 +1,9 @@
-import 'package:meili_flutter/meili_flutter.dart';
+import 'package:meili_flutter_car/meili_flutter_car.dart';
 
 /// The API environment the sample app points the SDK at.
 ///
 /// Mirrors the iOS Sample App's environment picker. [wireValue] is the raw
-/// string passed to [MeiliParams.env]; [label] is what the picker shows.
+/// string passed to [MeiliCarParams.env]; [label] is what the picker shows.
 enum MeiliEnv {
   dev('dev', 'Dev'),
   uat('uat', 'UAT'),
@@ -12,7 +12,7 @@ enum MeiliEnv {
 
   const MeiliEnv(this.wireValue, this.label);
 
-  /// The value sent to the native SDK via [MeiliParams.env].
+  /// The value sent to the native SDK via [MeiliCarParams.env].
   final String wireValue;
 
   /// The human-readable label shown in the picker.
@@ -58,7 +58,7 @@ class MeiliSettings {
         showBookingToast: json['showBookingToast'] as bool? ?? false,
       );
 
-  /// Partner / touchpoint id passed to [MeiliParams.ptid].
+  /// Partner / touchpoint id passed to [MeiliCarParams.ptid].
   final String ptid;
 
   /// Selected API environment.
@@ -123,9 +123,9 @@ class MeiliSettings {
         'showBookingToast': showBookingToast,
       };
 
-  /// Builds the [MeiliParams] used to launch the SDK from these settings.
-  MeiliParams toMeiliParams() {
-    return MeiliParams(
+  /// Builds the [MeiliCarParams] used to launch the SDK from these settings.
+  MeiliCarParams toMeiliParams() {
+    return MeiliCarParams(
       ptid: ptid,
       flow: flow,
       env: env.wireValue,

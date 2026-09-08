@@ -1,19 +1,19 @@
-# meili_flutter_example
+# meili_flutter_car_example
 
-Demonstrates how to use the meili_flutter plugin. The app is a small host that
+Demonstrates how to use the meili_flutter_car plugin. The app is a small host that
 configures launch settings (PTID, environment, flow, etc.) inline and opens the
 Meili SDK — see `lib/widgets/launch_view.dart`.
 
 ## Local development vs published plugin
 
 The example can build against either the **in-repo plugin source** (for testing
-local changes) or the **published `meili_flutter`** from pub.dev (what a real
+local changes) or the **published `meili_flutter_car`** from pub.dev (what a real
 consumer gets, used for Play Store releases). This is controlled by
 `pubspec_overrides.yaml`, not by the build mode (`--debug`/`--release`).
 
 ### Local development (default)
 
-`pubspec_overrides.yaml` is committed and redirects `meili_flutter` and the
+`pubspec_overrides.yaml` is committed and redirects `meili_flutter_car` and the
 federated platform packages to the in-repo source. Nothing extra to do:
 
 ```bash
@@ -26,8 +26,8 @@ flutter run            # or: flutter build apk --release
 
 ### Published plugin (Play Store release)
 
-1. Publish the plugin (`meili_flutter`) to pub.dev.
-2. Bump the `meili_flutter:` constraint in `pubspec.yaml` to the published
+1. Publish the plugin (`meili_flutter_car`) to pub.dev.
+2. Bump the `meili_flutter_car:` constraint in `pubspec.yaml` to the published
    version.
 3. Build with the overrides disabled:
 
@@ -38,7 +38,7 @@ scripts/build_published.sh            # release .aab against the published plugi
 ```
 
 The script temporarily sidelines `pubspec_overrides.yaml`, runs `flutter pub
-get` (resolving `meili_flutter` from pub.dev), builds the release artifact, then
+get` (resolving `meili_flutter_car` from pub.dev), builds the release artifact, then
 restores local-dev mode.
 
 > Note: the example's release build type is signed with the debug keystore. Add

@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:meili_flutter/meili_flutter.dart';
-import 'package:meili_flutter_example/launch_view_model.dart';
-import 'package:meili_flutter_example/meili_settings.dart';
+import 'package:meili_flutter_car/meili_flutter_car.dart';
+import 'package:meili_flutter_car_example/launch_view_model.dart';
+import 'package:meili_flutter_car_example/meili_settings.dart';
 
 /// The single "configure & launch" screen.
 ///
@@ -74,7 +74,7 @@ class _LaunchViewState extends State<LaunchView> {
       key: _messengerKey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Meili Sample'),
+          title: const Text('MeiliCar Sample'),
           actions: [
             TextButton(
               onPressed: _resetToDefaults,
@@ -220,7 +220,7 @@ class _LaunchViewState extends State<LaunchView> {
                     width: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Launch Meili'),
+                : const Text('Launch MeiliCar'),
           ),
         ),
       ],

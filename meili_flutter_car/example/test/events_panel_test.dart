@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meili_flutter/meili_flutter.dart';
-import 'package:meili_flutter_example/events_view_model.dart';
-import 'package:meili_flutter_example/widgets/events_panel.dart';
+import 'package:meili_flutter_car/meili_flutter_car.dart';
+import 'package:meili_flutter_car_example/events_view_model.dart';
+import 'package:meili_flutter_car_example/widgets/events_panel.dart';
 
 void main() {
   testWidgets('EventsPanel renders events from the view model', (tester) async {
-    final controller = StreamController<MeiliEvent>.broadcast();
+    final controller = StreamController<MeiliCarEvent>.broadcast();
     addTearDown(controller.close);
     final viewModel = EventsViewModel(events: controller.stream);
     addTearDown(viewModel.dispose);
@@ -19,10 +19,10 @@ void main() {
       ),
     );
 
-    expect(find.textContaining('No Meili events yet'), findsOneWidget);
+    expect(find.textContaining('No MeiliCar events yet'), findsOneWidget);
 
     controller.add(
-      const MeiliAnalyticsEvent(
+      const MeiliCarAnalyticsEvent(
         name: 'screen_viewed',
         properties: {'screen_name': 'home'},
       ),
@@ -30,7 +30,7 @@ void main() {
     await tester.pump();
     expect(find.textContaining('Analytics · screen_viewed'), findsOneWidget);
 
-    controller.add(const MeiliFlowDismissed());
+    controller.add(const MeiliCarFlowDismissed());
     await tester.pump();
     expect(find.text('Flow dismissed'), findsOneWidget);
   });

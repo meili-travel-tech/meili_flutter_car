@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build the example app against the PUBLISHED meili_flutter from pub.dev
+# Build the example app against the PUBLISHED meili_flutter_car from pub.dev
 # (i.e. with the local path overrides disabled), for a Play Store release.
 #
 # Day-to-day local development needs nothing — pubspec_overrides.yaml makes
@@ -37,7 +37,7 @@ trap restore EXIT
 
 if [ -f "$overrides" ]; then
   mv -f "$overrides" "$backup"
-  echo "Disabled local path overrides — resolving meili_flutter from pub.dev."
+  echo "Disabled local path overrides — resolving meili_flutter_car from pub.dev."
 fi
 
 flutter pub get

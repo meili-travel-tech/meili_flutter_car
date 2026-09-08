@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:meili_flutter_example/events_view_model.dart';
-import 'package:meili_flutter_example/launch_view_model.dart';
-import 'package:meili_flutter_example/settings_repository.dart';
-import 'package:meili_flutter_example/widgets/events_panel.dart';
-import 'package:meili_flutter_example/widgets/launch_view.dart';
+import 'package:meili_flutter_car_example/events_view_model.dart';
+import 'package:meili_flutter_car_example/launch_view_model.dart';
+import 'package:meili_flutter_car_example/settings_repository.dart';
+import 'package:meili_flutter_car_example/widgets/events_panel.dart';
+import 'package:meili_flutter_car_example/widgets/launch_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Meili Sample',
+      title: 'MeiliCar Sample',
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: const Color(0xFF1E88E5),
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-/// Tab that shows the live Meili event log, sourced from [EventsViewModel].
+/// Tab that shows the live MeiliCar event log, sourced from [EventsViewModel].
 class EventsView extends StatelessWidget {
   /// Creates the events view bound to [viewModel].
   const EventsView({required this.viewModel, super.key});
@@ -102,7 +102,7 @@ class EventsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Meili Events'),
+        title: const Text('MeiliCar Events'),
         actions: [
           TextButton(
             onPressed: viewModel.clear,

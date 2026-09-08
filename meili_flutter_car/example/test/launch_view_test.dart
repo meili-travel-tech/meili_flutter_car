@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meili_flutter/meili_flutter.dart';
-import 'package:meili_flutter_example/launch_view_model.dart';
-import 'package:meili_flutter_example/settings_repository.dart';
-import 'package:meili_flutter_example/widgets/launch_view.dart';
+import 'package:meili_flutter_car/meili_flutter_car.dart';
+import 'package:meili_flutter_car_example/launch_view_model.dart';
+import 'package:meili_flutter_car_example/settings_repository.dart';
+import 'package:meili_flutter_car_example/widgets/launch_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   Future<LaunchViewModel> buildViewModel(
-    StreamController<MeiliEvent> events,
+    StreamController<MeiliCarEvent> events,
   ) async {
     SharedPreferences.setMockInitialValues(<String, Object>{});
     final repository =
@@ -27,7 +27,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    final events = StreamController<MeiliEvent>.broadcast();
+    final events = StreamController<MeiliCarEvent>.broadcast();
     addTearDown(events.close);
     final viewModel = await buildViewModel(events);
     addTearDown(viewModel.dispose);
@@ -38,7 +38,7 @@ void main() {
 
     // Settings and the launch button share the one screen.
     expect(find.text('PTID'), findsOneWidget);
-    expect(find.text('Launch Meili'), findsOneWidget);
+    expect(find.text('Launch MeiliCar'), findsOneWidget);
 
     // Booking Manager fields are hidden for the default Direct flow, so only
     // PTID shows; enabling currency override adds the Currency field.
@@ -55,7 +55,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    final events = StreamController<MeiliEvent>.broadcast();
+    final events = StreamController<MeiliCarEvent>.broadcast();
     addTearDown(events.close);
     final viewModel = await buildViewModel(events);
     addTearDown(viewModel.dispose);
@@ -85,7 +85,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    final events = StreamController<MeiliEvent>.broadcast();
+    final events = StreamController<MeiliCarEvent>.broadcast();
     addTearDown(events.close);
     final viewModel = await buildViewModel(events);
     addTearDown(viewModel.dispose);

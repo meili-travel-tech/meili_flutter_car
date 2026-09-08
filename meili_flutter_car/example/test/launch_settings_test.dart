@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meili_flutter/meili_flutter.dart';
-import 'package:meili_flutter_example/launch_view_model.dart';
-import 'package:meili_flutter_example/meili_settings.dart';
-import 'package:meili_flutter_example/settings_repository.dart';
+import 'package:meili_flutter_car/meili_flutter_car.dart';
+import 'package:meili_flutter_car_example/launch_view_model.dart';
+import 'package:meili_flutter_car_example/meili_settings.dart';
+import 'package:meili_flutter_car_example/settings_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -94,7 +94,7 @@ void main() {
     });
 
     test('update persists and resetToDefaults restores', () {
-      final events = StreamController<MeiliEvent>.broadcast();
+      final events = StreamController<MeiliCarEvent>.broadcast();
       addTearDown(events.close);
       final viewModel = LaunchViewModel(
         repository: repository,
@@ -111,7 +111,7 @@ void main() {
     });
 
     test('emits a booking toast only when enabled', () async {
-      final events = StreamController<MeiliEvent>.broadcast();
+      final events = StreamController<MeiliCarEvent>.broadcast();
       addTearDown(events.close);
       final viewModel = LaunchViewModel(
         repository: repository,
@@ -124,13 +124,13 @@ void main() {
       addTearDown(subscription.cancel);
 
       // Disabled by default: no toast.
-      events.add(const MeiliBookingFlowEnded());
+      events.add(const MeiliCarBookingFlowEnded());
       await Future<void>.delayed(Duration.zero);
       expect(toasts, isEmpty);
 
       // Enabled: toast emitted.
       viewModel.update(const MeiliSettings(showBookingToast: true));
-      events.add(const MeiliBookingFlowEnded());
+      events.add(const MeiliCarBookingFlowEnded());
       await Future<void>.delayed(Duration.zero);
       expect(toasts, <String>['Booking flow ended']);
     });

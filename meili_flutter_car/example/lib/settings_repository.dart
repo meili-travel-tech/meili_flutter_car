@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:meili_flutter_example/meili_settings.dart';
+import 'package:meili_flutter_car_example/meili_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Persists [MeiliSettings] in `SharedPreferences` as a single JSON blob.
