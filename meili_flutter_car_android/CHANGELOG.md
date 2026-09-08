@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0
+
+- **Renamed from `meili_flutter_android`** (MPD-11470). Pins `com.meili.travel:meili-car-sdk`
+  `1.11.0` (was `meili.travel:ux-native-android-sdk` `1.10.1`); the plugin's own Kotlin package
+  moves from `com.flutter.meili` to `com.meili.travel.flutter.car` so a second Meili Flutter
+  plugin in the same host app cannot collide on `com.flutter.meili.MeiliFlutterPlugin`.
+  `meili_flutter_android` 0.4.x stays published and frozen. No behavioural change; see
+  `meili_flutter_car/CHANGELOG.md` for the Dart-facing symbol rename table.
+
 ## 0.4.10
 
 - Passes the new `AvailParams.discountRequested` and `AvailParams.partnerLoyaltyAccountTier` through

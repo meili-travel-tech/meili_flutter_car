@@ -1,9 +1,9 @@
-package com.flutter.meili
+package com.meili.travel.flutter.car
 
 import androidx.activity.ComponentActivity
-import com.meili.travel.api.AvailParams
-import com.meili.travel.api.MeiliActivity
-import com.meili.travel.api.MeiliComposeListener
+import com.meili.travel.car.api.AvailParams
+import com.meili.travel.car.api.MeiliCarActivity
+import com.meili.travel.car.api.MeiliCarComposeListener
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -21,10 +21,10 @@ class MeiliFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private var eventSink: EventChannel.EventSink? = null
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(binding.binaryMessenger, "meili_flutter")
+        channel = MethodChannel(binding.binaryMessenger, "meili_flutter_car")
         channel.setMethodCallHandler(this)
 
-        eventChannel = EventChannel(binding.binaryMessenger, "meili_flutter/events")
+        eventChannel = EventChannel(binding.binaryMessenger, "meili_flutter_car/events")
         eventChannel.setStreamHandler(object : EventChannel.StreamHandler {
             override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
                 eventSink = events
@@ -49,7 +49,7 @@ class MeiliFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     return
                 }
 
-                MeiliActivity.start(
+                MeiliCarActivity.start(
                     context = act,
                     ptid = ptid,
                     env = parseEnv(args["env"] as? String),
@@ -57,7 +57,7 @@ class MeiliFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     availParams = parseAvailParams(args["availParams"] as? Map<*, *>)
                         ?: AvailParams(null, null, null, null, null, null, null, null, null),
                     additionalParams = parseAdditionalParams(args["additionalParams"] as? Map<*, *>),
-                    listener = object : MeiliComposeListener {
+                    listener = object : MeiliCarComposeListener {
                         override fun onEndBookingFlow(callback: (() -> Unit)?) {
                             eventSink?.success(mapOf("type" to "bookingFlowEnded"))
                             callback?.invoke()

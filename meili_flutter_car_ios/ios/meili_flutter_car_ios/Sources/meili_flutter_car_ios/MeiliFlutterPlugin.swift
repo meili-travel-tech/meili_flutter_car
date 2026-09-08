@@ -1,6 +1,6 @@
 import Flutter
 import UIKit
-import MeiliSDK
+import MeiliCarSDK
 import CoreText
 
 public class MeiliFlutterPlugin: NSObject, FlutterPlugin {
@@ -8,19 +8,19 @@ public class MeiliFlutterPlugin: NSObject, FlutterPlugin {
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         registerAllFonts()
-        let channel = FlutterMethodChannel(name: "meili_flutter", binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: "meili_flutter_car", binaryMessenger: registrar.messenger())
         let instance = MeiliFlutterPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
         registrar.addApplicationDelegate(instance)
 
         // Event channel: forwards SDK lifecycle + analytics events to Dart.
-        let eventChannel = FlutterEventChannel(name: "meili_flutter/events", binaryMessenger: registrar.messenger())
+        let eventChannel = FlutterEventChannel(name: "meili_flutter_car/events", binaryMessenger: registrar.messenger())
         eventChannel.setStreamHandler(MeiliEventDispatcher.shared)
         // Plugin registration runs on the main thread. The SDK's
-        // MeiliAnalyticsProvider protocol is @MainActor, so the provider's init
+        // MeiliCarAnalyticsProvider protocol is @MainActor, so the provider's init
         // and `addProvider` must run on the main actor.
         MainActor.assumeIsolated {
-            MeiliAnalytics.shared.addProvider(MeiliFlutterAnalyticsProvider())
+            MeiliCarAnalytics.shared.addProvider(MeiliFlutterAnalyticsProvider())
         }
     }
 
@@ -58,12 +58,12 @@ public class MeiliFlutterPlugin: NSObject, FlutterPlugin {
             return
         }
         
-        let meiliFlow = MeiliFlow(rawValue: flow) ?? .direct
-        let environment = MeiliEnvironment(rawValue: env) ?? .dev
+        let meiliFlow = MeiliCarFlow(rawValue: flow) ?? .direct
+        let environment = MeiliCarEnvironment(rawValue: env) ?? .dev
         let availParams = (arguments["availParams"] as? [String: Any]).flatMap(parseAvailParams)
         let additionalParams = (arguments["additionalParams"] as? [String: Any]).flatMap(parseBookingParams)
         
-        let meiliParams = MeiliParams(
+        let meiliParams = MeiliCarParams(
             ptid: ptid,
             flow: meiliFlow,
             env: environment,
@@ -73,11 +73,11 @@ public class MeiliFlutterPlugin: NSObject, FlutterPlugin {
         
         viewController.meiliParams = meiliParams
         
-        if MeiliSupport.isNativeFunnelAvailable {
+        if MeiliCarSupport.isNativeFunnelAvailable {
             viewController.modalPresentationStyle = .pageSheet
             rootViewController.present(viewController, animated: true, completion: nil)
         } else {
-            // iOS 15: MeiliView is a placeholder that immediately presents the web funnel over
+            // iOS 15: MeiliCarView is a placeholder that immediately presents the web funnel over
             // this controller, so animating a page sheet in first would show an empty card.
             // Full-screen, not .overFullScreen — the SDK's message state needs an opaque backdrop.
             viewController.modalPresentationStyle = .fullScreen

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0
+
+- **Renamed from `meili_flutter_ios`** (MPD-11470). Pins `MeiliCarSDK` `1.12.0` (was `MeiliSDK`
+  `1.11.1`) in both the podspec and `Package.swift`; the source directory moves from
+  `ios/meili_flutter_ios/` to `ios/meili_flutter_car_ios/`. `meili_flutter_ios` 0.4.x stays
+  published and frozen. No behavioural change; see `meili_flutter_car/CHANGELOG.md` for the
+  Dart-facing symbol rename table.
+
 ## 0.4.8
 
 - Pinned MeiliSDK `1.11.1` in both the podspec and `Package.swift`.

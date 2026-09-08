@@ -1,17 +1,17 @@
 //
 //  MeiliViewController.swift
-//  meili_flutter_ios
+//  meili_flutter_car_ios
 //
 //  Created by Henrique Marques on 01/08/2024.
 //
 
 import Foundation
-import MeiliSDK
+import MeiliCarSDK
 import UIKit
 import SwiftUI
 
 class MeiliViewController: UIViewController {
-    var meiliParams: MeiliParams?
+    var meiliParams: MeiliCarParams?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +38,9 @@ class MeiliViewController: UIViewController {
 struct MeiliWrapperView: View {
     @Environment(\.dismiss) private var dismiss
     
-    var params: MeiliParams
+    var params: MeiliCarParams
     
-    private var paramsWithDismiss: MeiliParams {
+    private var paramsWithDismiss: MeiliCarParams {
         var _params = self.params
         _params.dismissAction = {
             dismiss()
@@ -53,6 +53,6 @@ struct MeiliWrapperView: View {
     }
     
     var body: some View {
-        return MeiliView(with: paramsWithDismiss)
+        return MeiliCarView(with: paramsWithDismiss)
     }
 }

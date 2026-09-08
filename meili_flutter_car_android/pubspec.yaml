@@ -1,6 +1,6 @@
-name: meili_flutter_android
-description: Android implementation of the meili_flutter plugin
-version: 0.4.10
+name: meili_flutter_car_android
+description: Android implementation of the meili_flutter_car plugin
+version: 0.5.0
 
 homepage: https://github.com/meili-travel-tech/flutter_meili
 
@@ -10,16 +10,16 @@ environment:
 
 flutter:
     plugin:
-        implements: meili_flutter
+        implements: meili_flutter_car
         platforms:
             android:
-                package: com.flutter.meili
+                package: com.meili.travel.flutter.car
                 pluginClass: MeiliFlutterPlugin
 
 dependencies:
     flutter:
         sdk: flutter
-    meili_flutter_platform_interface: ^0.4.1
+    meili_flutter_car_platform_interface: ^0.5.0
 
 dev_dependencies:
     flutter_test:

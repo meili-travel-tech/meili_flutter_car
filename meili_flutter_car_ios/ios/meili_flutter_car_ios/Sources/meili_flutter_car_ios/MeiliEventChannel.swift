@@ -1,14 +1,14 @@
 //
 //  MeiliEventChannel.swift
-//  meili_flutter_ios
+//  meili_flutter_car_ios
 //
-//  Bridges native Meili SDK callbacks to the Dart `meili_flutter/events`
+//  Bridges native MeiliCar SDK callbacks to the Dart `meili_flutter_car/events`
 //  EventChannel.
 //
 
 import Flutter
 import Foundation
-import MeiliSDK
+import MeiliCarSDK
 
 /// Single shared sink for native Meili events. Acts as the EventChannel's
 /// stream handler and is fed by the SDK's lifecycle closures
@@ -67,8 +67,8 @@ final class MeiliEventDispatcher: NSObject, FlutterStreamHandler {
 }
 
 /// Forwards every SDK analytics event to the Dart event stream. Registered
-/// once via `MeiliAnalytics.shared.addProvider(_:)`.
-final class MeiliFlutterAnalyticsProvider: MeiliAnalyticsProvider {
+/// once via `MeiliCarAnalytics.shared.addProvider(_:)`.
+final class MeiliFlutterAnalyticsProvider: MeiliCarAnalyticsProvider {
     func trackEvent(name: String, properties: [String: Any]?) {
         MeiliEventDispatcher.shared.send([
             "type": "analytics",

@@ -1,4 +1,4 @@
-group 'com.flutter.meili'
+group 'com.meili.travel.flutter.car'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -29,7 +29,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
-    namespace = "com.flutter.meili"
+    namespace = "com.meili.travel.flutter.car"
 
     compileSdk = 35
 
@@ -75,7 +75,7 @@ android {
 }
 
 dependencies {
-    implementation "meili.travel:ux-native-android-sdk:1.10.1"
+    implementation "com.meili.travel:meili-car-sdk:1.11.0"
 
     implementation 'androidx.activity:activity-compose:1.9.2'
     implementation 'androidx.compose.ui:ui:1.7.2'

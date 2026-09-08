@@ -1,6 +1,6 @@
-name: meili_flutter_ios
-description: iOS implementation of the meili_flutter plugin
-version: 0.4.8
+name: meili_flutter_car_ios
+description: iOS implementation of the meili_flutter_car plugin
+version: 0.5.0
 
 homepage: https://github.com/meili-travel-tech/flutter_meili
 
@@ -10,7 +10,7 @@ environment:
 
 flutter:
     plugin:
-        implements: meili_flutter
+        implements: meili_flutter_car
         platforms:
             ios:
                 pluginClass: MeiliFlutterPlugin
@@ -18,7 +18,7 @@ flutter:
 dependencies:
     flutter:
         sdk: flutter
-    meili_flutter_platform_interface: ^0.4.1
+    meili_flutter_car_platform_interface: ^0.5.0
 
 dev_dependencies:
     flutter_test:

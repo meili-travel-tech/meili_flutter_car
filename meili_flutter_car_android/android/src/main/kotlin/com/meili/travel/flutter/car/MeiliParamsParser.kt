@@ -1,24 +1,24 @@
-package com.flutter.meili
+package com.meili.travel.flutter.car
 
-import com.meili.travel.api.AdditionalParams
-import com.meili.travel.api.AvailParams
-import com.meili.travel.api.DevelopmentEnvironment
-import com.meili.travel.api.MeiliEnvironment
-import com.meili.travel.api.MeiliFlow
-import com.meili.travel.api.PreProductionEnvironment
-import com.meili.travel.api.ProductionEnvironment
-import com.meili.travel.api.UatEnvironment
+import com.meili.travel.car.api.AdditionalParams
+import com.meili.travel.car.api.AvailParams
+import com.meili.travel.car.api.DevelopmentEnvironment
+import com.meili.travel.car.api.MeiliCarEnvironment
+import com.meili.travel.car.api.MeiliCarFlow
+import com.meili.travel.car.api.PreProductionEnvironment
+import com.meili.travel.car.api.ProductionEnvironment
+import com.meili.travel.car.api.UatEnvironment
 
-internal fun parseEnv(envName: String?): MeiliEnvironment = when (envName?.lowercase()) {
+internal fun parseEnv(envName: String?): MeiliCarEnvironment = when (envName?.lowercase()) {
     "prod", "production" -> ProductionEnvironment()
     "pre_prod", "preprod" -> PreProductionEnvironment()
     "uat" -> UatEnvironment()
     else -> DevelopmentEnvironment()
 }
 
-internal fun parseFlow(flowName: String?): MeiliFlow = when (flowName?.lowercase()) {
-    "bookingmanager" -> MeiliFlow.BookingManager
-    else -> MeiliFlow.Direct
+internal fun parseFlow(flowName: String?): MeiliCarFlow = when (flowName?.lowercase()) {
+    "bookingmanager" -> MeiliCarFlow.BookingManager
+    else -> MeiliCarFlow.Direct
 }
 
 internal fun parseAvailParams(map: Map<*, *>?): AvailParams? {

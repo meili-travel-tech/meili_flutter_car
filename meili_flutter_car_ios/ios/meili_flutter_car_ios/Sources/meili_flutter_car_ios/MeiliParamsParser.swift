@@ -1,10 +1,10 @@
 //
 //  MeiliParamsParser.swift
-//  meili_flutter_ios
+//  meili_flutter_car_ios
 //
 
 import Foundation
-import MeiliSDK
+import MeiliCarSDK
 
 func parseBookingParams(from dict: [String: Any]) -> AdditionalParams? {
     return AdditionalParams(
