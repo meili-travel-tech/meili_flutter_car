@@ -1,5 +1,7 @@
 package com.flutter.meili
 
+import android.app.Activity
+import android.util.Log
 import androidx.activity.ComponentActivity
 import com.meili.travel.api.AvailParams
 import com.meili.travel.api.MeiliActivity
@@ -18,6 +20,7 @@ class MeiliFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
     private lateinit var eventChannel: EventChannel
     private var activity: ComponentActivity? = null
+    private var rawActivity: Activity? = null
     private var eventSink: EventChannel.EventSink? = null
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -39,7 +42,14 @@ class MeiliFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         when (call.method) {
             "openMeiliViewController" -> {
                 val act = activity ?: run {
-                    result.error("NO_ACTIVITY", "Activity not available", null)
+                    val message = if (rawActivity != null) {
+                        "Your MainActivity must extend FlutterFragmentActivity. The Meili plugin needs " +
+                            "an androidx ComponentActivity host, but the attached activity " +
+                            "(${rawActivity?.javaClass?.name}) is not one."
+                    } else {
+                        "No Android Activity is attached to the Flutter engine."
+                    }
+                    result.error("NO_ACTIVITY", message, null)
                     return
                 }
                 @Suppress("UNCHECKED_CAST")
@@ -80,18 +90,35 @@ class MeiliFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        activity = binding.activity as? ComponentActivity
+        bindActivity(binding)
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        activity = null
+        clearActivity()
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        activity = binding.activity as? ComponentActivity
+        bindActivity(binding)
     }
 
     override fun onDetachedFromActivity() {
+        clearActivity()
+    }
+
+    private fun bindActivity(binding: ActivityPluginBinding) {
+        rawActivity = binding.activity
+        activity = binding.activity as? ComponentActivity
+        if (activity == null) {
+            Log.w(
+                "MeiliFlutterPlugin",
+                "Host activity ${binding.activity.javaClass.name} is not a ComponentActivity; " +
+                    "MainActivity must extend FlutterFragmentActivity for the Meili plugin to work.",
+            )
+        }
+    }
+
+    private fun clearActivity() {
         activity = null
+        rawActivity = null
     }
 }

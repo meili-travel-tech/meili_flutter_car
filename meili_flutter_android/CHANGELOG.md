@@ -93,6 +93,7 @@ Stable release of the `0.4.7-beta.x` line.
 - Stopped pinning the Android Gradle Plugin in the plugin buildscript; it is now inherited from the host app, which avoids AGP version conflicts on AGP 9 hosts.
 - Resolve the Meili Android SDK from the public GitHub Pages Maven repository (`https://meili-travel-tech.github.io/ux-native-android/`); host apps no longer need GitHub Packages credentials (`MEILI_GITHUB_USERNAME` / `MEILI_GITHUB_TOKEN`).
 - Updated the Meili Android SDK dependency to 1.6.8.
+- Fail with a clear message when the host `MainActivity` is not a `ComponentActivity` (it must extend `FlutterFragmentActivity`) instead of a generic "Activity not available" error, and log a warning at activity-attach time.
 
 ## 0.3.0-beta.3
 
