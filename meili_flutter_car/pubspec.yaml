@@ -2,9 +2,9 @@ name: meili_flutter_car
 description: Meili Flutter Car plugin
 version: 0.8.0
 
-homepage: https://github.com/meili-travel-tech/flutter_meili
-repository: https://github.com/meili-travel-tech/flutter_meili
-issue_tracker: https://github.com/meili-travel-tech/flutter_meili/issues
+homepage: https://github.com/meili-travel-tech/meili_flutter_car
+repository: https://github.com/meili-travel-tech/meili_flutter_car
+issue_tracker: https://github.com/meili-travel-tech/meili_flutter_car/issues
 
 environment:
     sdk: '>=3.4.0 <4.0.0'

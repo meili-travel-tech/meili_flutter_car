@@ -234,4 +234,4 @@ See `CHANGELOG.md` for the full symbol rename table.
 
 ## Contributing
 
-Open issues or pull requests at [github.com/meili-travel-tech/flutter_meili](https://github.com/meili-travel-tech/flutter_meili).
+Open issues or pull requests at [github.com/meili-travel-tech/meili_flutter_car](https://github.com/meili-travel-tech/meili_flutter_car).
