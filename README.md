@@ -1,14 +1,14 @@
-# Meili Flutter Plugin
+# Meili Flutter Car Plugin
 
-[![pub package](https://img.shields.io/pub/v/meili_flutter.svg)](https://pub.dev/packages/meili_flutter)
+[![pub package](https://img.shields.io/pub/v/meili_flutter_car.svg)](https://pub.dev/packages/meili_flutter_car)
 
-The Meili Flutter Plugin allows you to integrate the Meili car rental booking experience into your Flutter applications on both iOS and Android.
+The Meili Flutter Car Plugin allows you to integrate the Meili car rental booking experience into your Flutter applications on both iOS and Android.
 
 ## Features
 
 - **Cross-platform**: Full support for iOS and Android
 - **Two booking flows**: Direct (search & book) and Booking Manager (manage existing bookings)
-- **Dismiss callback**: Listen for when the user closes the Meili flow
+- **Dismiss callback**: Listen for when the user closes the MeiliCar flow
 - **Prefill support**: Pass availability and booking parameters to pre-populate the search
 
 ## Requirements
@@ -24,7 +24,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  meili_flutter: ^0.3.1-beta.6
+  meili_flutter_car: ^0.8.0
 ```
 
 Run:
@@ -64,15 +64,15 @@ cd ios && pod repo update && pod install
 
 ## Usage
 
-### Open the Meili flow
+### Open the MeiliCar flow
 
-Open the Meili flow imperatively (e.g. on button tap) — this is the only
+Open the MeiliCar flow imperatively (e.g. on button tap) — this is the only
 supported way to present it, on both iOS and Android:
 
 ```dart
-import 'package:meili_flutter/meili_flutter.dart';
+import 'package:meili_flutter_car/meili_flutter_car.dart';
 
-await Meili.openMeiliView(MeiliParams(
+await MeiliCar.open(MeiliCarParams(
   ptid: 'your-ptid',
   env: 'prod',
   flow: FlowType.direct,
@@ -82,7 +82,7 @@ await Meili.openMeiliView(MeiliParams(
 ### Booking Manager flow
 
 ```dart
-await Meili.openMeiliView(MeiliParams(
+await MeiliCar.open(MeiliCarParams(
   ptid: 'your-ptid',
   env: 'prod',
   flow: FlowType.bookingManager,
@@ -96,7 +96,7 @@ await Meili.openMeiliView(MeiliParams(
 ### Prefill availability parameters
 
 ```dart
-await Meili.openMeiliView(MeiliParams(
+await MeiliCar.open(MeiliCarParams(
   ptid: 'your-ptid',
   env: 'prod',
   flow: FlowType.direct,
@@ -120,10 +120,10 @@ Every `AvailParams` field is optional. Pass only what you want to prefill and th
 availParams: AvailParams(currencyCode: 'GBP'),
 ```
 
-### Listening for dismiss events
+### Listening for events
 
 ```dart
-import 'package:meili_flutter/meili_flutter.dart';
+import 'package:meili_flutter_car/meili_flutter_car.dart';
 
 class MyPage extends StatefulWidget { ... }
 
@@ -131,9 +131,9 @@ class _MyPageState extends State<MyPage> {
   @override
   void initState() {
     super.initState();
-    Meili.onEvent.listen((event) {
-      if (event is MeiliFlowDismissed) {
-        // User closed the Meili flow
+    MeiliCar.events.listen((event) {
+      if (event is MeiliCarFlowDismissed) {
+        // User closed the MeiliCar flow
         Navigator.of(context).pop();
       }
     });
@@ -157,6 +157,11 @@ class _MyPageState extends State<MyPage> {
 | `'uat'` | UAT |
 | `'dev'` | Development |
 
+## Migrating from `meili_flutter`
+
+See [Migrating from `meili_flutter`](meili_flutter_car/README.md#migrating-from-meili_flutter)
+in the `meili_flutter_car` README for the full migration steps.
+
 ## Contributing
 
-Open issues or pull requests at [github.com/meili-travel-tech/flutter_meili](https://github.com/meili-travel-tech/flutter_meili).
+Open issues or pull requests at [github.com/meili-travel-tech/meili_flutter_car](https://github.com/meili-travel-tech/meili_flutter_car).

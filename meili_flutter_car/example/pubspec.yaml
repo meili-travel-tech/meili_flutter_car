@@ -1,0 +1,46 @@
+name: meili_flutter_car_example
+description: Demonstrates how to use the meili_flutter_car plugin.
+version: 0.8.0+1
+publish_to: none
+
+environment:
+    sdk: ^3.4.0
+
+dependencies:
+    flutter:
+        sdk: flutter
+    # Published plugin — used for release / Play Store builds (resolved from
+    # pub.dev). For local development, pubspec_overrides.yaml redirects this and
+    # the federated platform packages to the in-repo source, so day-to-day
+    # `flutter run` builds against local changes. Bump this to the version you
+    # published before building against pub.dev (see scripts/build_published.sh).
+    meili_flutter_car: ^0.8.0
+    shared_preferences: ^2.3.2
+
+dev_dependencies:
+    flutter_driver:
+        sdk: flutter
+    flutter_test:
+        sdk: flutter
+    integration_test:
+        sdk: flutter
+    very_good_analysis: ^6.0.0
+
+flutter:
+    uses-material-design: true
+    assets:
+        - fonts/
+    fonts:
+        - family: NunitoSans
+          fonts:
+              - asset: fonts/NunitoSans-Bold.ttf
+              - asset: fonts/NunitoSans-ExtraBold.ttf
+              - asset: fonts/NunitoSans-Regular.ttf
+              - asset: fonts/NunitoSans-SemiBold.ttf
+              - asset: fonts/NunitoSans-Light.ttf
+        - family: RobotoFlex
+          fonts:
+              - asset: fonts/RobotoFlex.ttf
+        - family: Roboto
+          fonts:
+              - asset: fonts/Roboto-Regular.ttf

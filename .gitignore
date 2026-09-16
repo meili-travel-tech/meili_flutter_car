@@ -48,4 +48,4 @@ build/
 .settings
 
 
-meili_flutter_ios/ios/MeiliSDK.xcframework
+meili_flutter_car_ios/ios/MeiliCarSDK.xcframework

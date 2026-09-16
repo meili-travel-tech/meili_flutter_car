@@ -1,0 +1,17 @@
+# Local development overrides.
+#
+# While this file is present, `flutter pub get` builds the example against the
+# in-repo plugin source instead of the published `meili_flutter_car` declared in
+# pubspec.yaml — so local changes are picked up by `flutter run`/`flutter test`.
+#
+# To build against the PUBLISHED plugin (e.g. a Play Store release), sideline
+# this file first — `scripts/build_published.sh` does that automatically.
+dependency_overrides:
+  meili_flutter_car:
+    path: ../
+  meili_flutter_car_android:
+    path: ../../meili_flutter_car_android
+  meili_flutter_car_ios:
+    path: ../../meili_flutter_car_ios
+  meili_flutter_car_platform_interface:
+    path: ../../meili_flutter_car_platform_interface

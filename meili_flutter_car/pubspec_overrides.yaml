@@ -1,0 +1,9 @@
+# Local development overrides — mirrors meili_flutter_car/example/pubspec_overrides.yaml.
+# Without it, analyze/test here resolve the federated packages from pub.dev.
+dependency_overrides:
+  meili_flutter_car_platform_interface:
+    path: ../meili_flutter_car_platform_interface
+  meili_flutter_car_android:
+    path: ../meili_flutter_car_android
+  meili_flutter_car_ios:
+    path: ../meili_flutter_car_ios

@@ -8,9 +8,9 @@ name: iOS build smoke test
 on:
     pull_request:
         paths:
-            - 'meili_flutter_ios/**'
-            - 'meili_flutter_platform_interface/**'
-            - 'meili_flutter/**'
+            - 'meili_flutter_car_ios/**'
+            - 'meili_flutter_car_platform_interface/**'
+            - 'meili_flutter_car/**'
             - '.github/workflows/ios-build-smoke.yml'
     workflow_dispatch:
 
@@ -20,7 +20,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                # true  -> SwiftPM path (uses meili_flutter_ios/ios/meili_flutter_ios/Package.swift)
+                # true  -> SwiftPM path (uses meili_flutter_car_ios/ios/meili_flutter_car_ios/Package.swift)
                 # false -> CocoaPods path (uses the podspec) — regression guard
                 swiftpm: [true, false]
         name: build (swiftpm=${{ matrix.swiftpm }})
@@ -30,7 +30,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            # MeiliSDK's XCFramework is built with a recent Swift toolchain
+            # MeiliCarSDK's XCFramework is built with a recent Swift toolchain
             # (>= 6.2.4); a Swift .swiftinterface can't be consumed by an older
             # compiler, so select the newest Xcode rather than the runner default.
             - name: Select latest Xcode
@@ -54,13 +54,13 @@ jobs:
                   fi
 
             - name: Pub get
-              working-directory: meili_flutter/example
+              working-directory: meili_flutter_car/example
               run: |
                   flutter clean
                   flutter pub get
 
             - name: Build iOS (no codesign)
-              working-directory: meili_flutter/example
+              working-directory: meili_flutter_car/example
               run: flutter build ios --no-codesign
 
     # Blocking floor guard: the matrix above runs CocoaPods with continue-on-error,
@@ -83,13 +83,13 @@ jobs:
                   channel: 'stable'
 
             - name: Pub get (CocoaPods mode)
-              working-directory: meili_flutter/example
+              working-directory: meili_flutter_car/example
               run: |
                   flutter config --no-enable-swift-package-manager
                   flutter pub get
 
             - name: pod install
-              working-directory: meili_flutter/example/ios
+              working-directory: meili_flutter_car/example/ios
               # CocoaPods needs a UTF-8 locale or it dies in unicode_normalize.
               env:
                   LANG: en_US.UTF-8
