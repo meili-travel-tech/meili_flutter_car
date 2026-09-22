@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1
+
+- Pins `com.meili.travel:meili-car-sdk` `1.11.1`. The vendor-link locale
+  fallback and the hidden empty "More options" block are fixed in the SDK
+  itself; no plugin change was needed (MPD-11466).
+
 ## 0.5.0
 
 - **Renamed from `meili_flutter_android`** (MPD-11470). Pins `com.meili.travel:meili-car-sdk`

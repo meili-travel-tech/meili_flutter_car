@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.0
+
+- **Start again now works in Flutter hosts on iOS without calling `popToRoot`.**
+  MeiliCarSDK 1.13.0 resets the confirmation screen's "Start again" action to the
+  search panel itself; a Flutter host that never called `MeiliCar.popToRoot()`
+  previously saw "Start again" do nothing on iOS (MPD-11466).
+- `MeiliCar.popToRoot()` is deprecated. It is now a no-op on both platforms —
+  Android's SDK already invoked its callback immediately — kept only for
+  source compatibility.
+- Requires `meili_flutter_car_ios` `^0.6.0` and `meili_flutter_car_android` `^0.5.1`.
+
 ## 0.8.0
 
 - **BREAKING: `meili_flutter` is renamed to `meili_flutter_car`**, part of Meili's product-scoped

@@ -13,13 +13,19 @@ class MeiliCar {
   ///
   /// Events emitted before the first listener subscribes are dropped.
   /// Both platforms forward the lifecycle events; forwarded analytics
-  /// events are currently iOS-only.
+  /// events are currently iOS-only. [MeiliCarBookingFlowEnded] is a
+  /// notification only — the SDK has already returned to its search panel
+  /// and no host action is required.
   static Stream<MeiliCarEvent> get events =>
       MeiliCarFlutterPlatform.instance.events;
 
-  /// Invokes the SDK's retained `popToRoot` action — typically called by the
-  /// host in response to a [MeiliCarBookingFlowEnded] event. No-op if there
-  /// is nothing to pop.
+  /// No-op kept for source compatibility. The SDK returns to its search
+  /// panel on its own; hosts no longer need to call this.
+  @Deprecated(
+    'The SDK returns to the search panel itself since '
+    'meili_flutter_car_ios 0.6.0; this call is a no-op kept for '
+    'compatibility',
+  )
   static Future<void> popToRoot() =>
       MeiliCarFlutterPlatform.instance.popToRoot();
 }

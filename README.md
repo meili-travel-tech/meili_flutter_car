@@ -135,11 +135,17 @@ class _MyPageState extends State<MyPage> {
       if (event is MeiliCarFlowDismissed) {
         // User closed the MeiliCar flow
         Navigator.of(context).pop();
+      } else if (event is MeiliCarBookingFlowEnded) {
+        // Booking complete; the SDK has returned to the search panel
       }
     });
   }
 }
 ```
+
+`MeiliCarBookingFlowEnded` is informational: the SDK has already returned to
+its own search panel, and no action is required. Hosts that want to close
+their modal when a booking completes can do so from this listener.
 
 ## Flows
 
