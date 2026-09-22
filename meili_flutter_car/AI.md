@@ -13,8 +13,9 @@ Key APIs
   analytics (`MeiliCarAnalyticsEvent`). Both platforms forward the lifecycle
   events; forwarded analytics events are iOS-only for now — see
   `meili_flutter_car_android/AI.md`.
-- `MeiliCar.popToRoot()` invokes the SDK's retained `popToRoot` action,
-  typically in response to a `MeiliCarBookingFlowEnded` event.
+- `MeiliCar.popToRoot()` is deprecated and a no-op on both platforms: the
+  SDK resets itself to its search panel on its own after
+  `MeiliCarBookingFlowEnded`.
 
 Models (`meili_flutter_car_platform_interface`)
 - `MeiliCarParams`: ptid, flow (`FlowType`), env, availParams, additionalParams.

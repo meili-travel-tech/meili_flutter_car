@@ -2,9 +2,10 @@
 
 ## 0.5.1
 
-- Pins `com.meili.travel:meili-car-sdk` `1.11.1`. The vendor-link locale
-  fallback and the hidden empty "More options" block are fixed in the SDK
-  itself; no plugin change was needed (MPD-11466).
+- Pins `com.meili.travel:meili-car-sdk` `1.11.1`, which resolves vendor-link
+  URLs by exact language tag → language → en → first and hides the
+  confirmation "More options" block when a vendor has no links (MPD-11466).
+  No plugin code change.
 
 ## 0.5.0
 

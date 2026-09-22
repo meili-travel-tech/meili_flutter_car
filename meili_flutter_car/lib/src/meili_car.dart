@@ -14,8 +14,8 @@ class MeiliCar {
   /// Events emitted before the first listener subscribes are dropped.
   /// Both platforms forward the lifecycle events; forwarded analytics
   /// events are currently iOS-only. [MeiliCarBookingFlowEnded] is a
-  /// notification only — the SDK has already returned to its search panel
-  /// and no host action is required.
+  /// notification only — the SDK resets itself to its own search panel
+  /// immediately after this event; no host action is required.
   static Stream<MeiliCarEvent> get events =>
       MeiliCarFlutterPlatform.instance.events;
 

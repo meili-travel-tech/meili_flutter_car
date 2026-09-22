@@ -24,7 +24,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  meili_flutter_car: ^0.8.0
+  meili_flutter_car: ^0.9.0
 ```
 
 Run:
@@ -136,16 +136,17 @@ class _MyPageState extends State<MyPage> {
         // User closed the MeiliCar flow
         Navigator.of(context).pop();
       } else if (event is MeiliCarBookingFlowEnded) {
-        // Booking complete; the SDK has returned to the search panel
+        // Booking complete; the SDK returns to its search panel right after this
       }
     });
   }
 }
 ```
 
-`MeiliCarBookingFlowEnded` is informational: the SDK has already returned to
-its own search panel, and no action is required. Hosts that want to close
-their modal when a booking completes can do so from this listener.
+`MeiliCarBookingFlowEnded` is informational: the SDK resets itself to its own
+search panel immediately after this event; no host action is required. Hosts
+that want to close their modal when a booking completes can do so from this
+listener.
 
 ## Flows
 

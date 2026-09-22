@@ -1,3 +1,10 @@
+## 0.5.1
+
+- Doc-only: corrects the `popToRoot` and `MeiliCarBookingFlowEnded` doc
+  comments, which told hosts to call `popToRoot`. The SDK resets itself to
+  its search panel on its own; `popToRoot` is kept only for older app
+  packages that still call it (MPD-11466).
+
 ## 0.5.0
 
 - **Renamed from `meili_flutter_platform_interface`** (MPD-11470). `MeiliFlutterPlatform` →

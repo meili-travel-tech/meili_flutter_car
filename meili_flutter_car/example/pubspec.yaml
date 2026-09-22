@@ -1,6 +1,6 @@
 name: meili_flutter_car_example
 description: Demonstrates how to use the meili_flutter_car plugin.
-version: 0.8.0+1
+version: 0.9.0+1
 publish_to: none
 
 environment:

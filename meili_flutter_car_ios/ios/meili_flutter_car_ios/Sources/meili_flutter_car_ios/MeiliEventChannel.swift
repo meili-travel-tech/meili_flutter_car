@@ -43,17 +43,13 @@ final class MeiliEventDispatcher: NSObject, FlutterStreamHandler {
         }
     }
 
-    /// Retains the `popToRoot` action delivered with the latest end-of-flow
-    /// event so it can be triggered later via the `popToRoot` method call.
-    /// With MeiliCarSDK >= 1.13.0 the SDK has already reset itself to the
-    /// search panel by the time this closure is invoked, so it is a no-op
-    /// kept for source compatibility with older Dart callers.
+    /// Retains the `popToRoot` closure delivered with the end-of-flow event.
+    /// Since MeiliCarSDK 1.13.0 that closure is itself a compatibility no-op.
     func retainPopToRoot(_ action: @escaping () -> Void) {
         pendingPopToRoot = action
     }
 
-    /// Invokes the retained `popToRoot` action, if any. A no-op with
-    /// MeiliCarSDK >= 1.13.0; see `retainPopToRoot`.
+    /// Invokes the retained `popToRoot` action, if any.
     func popToRoot() {
         pendingPopToRoot?()
     }
@@ -63,7 +59,7 @@ final class MeiliEventDispatcher: NSObject, FlutterStreamHandler {
         send(["type": "flowDismissed"])
     }
 
-    /// Retains `popToRoot` (see above) and emits a `bookingFlowEnded` event.
+    /// Retains `popToRoot` and emits a `bookingFlowEnded` event.
     func sendBookingFlowEnded(_ popToRoot: @escaping () -> Void) {
         retainPopToRoot(popToRoot)
         send(["type": "bookingFlowEnded"])
