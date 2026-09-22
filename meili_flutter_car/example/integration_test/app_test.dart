@@ -46,6 +46,7 @@ void main() {
       // hanging the suite if it doesn't.
       await tester.runAsync(() async {
         await Future<void>.delayed(const Duration(seconds: 5));
+        // ignore: deprecated_member_use
         await MeiliCar.popToRoot();
         await Future<void>.delayed(const Duration(seconds: 2));
       }).timeout(
