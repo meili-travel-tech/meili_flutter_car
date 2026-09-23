@@ -2,8 +2,7 @@ name: iOS build smoke test
 
 # Builds the example app's iOS plugin in BOTH dependency modes so neither path
 # silently rots. publish.yml only does pub.dev publish + Dart analysis and never
-# compiles the native iOS layer — this closes that gap (mirrors the SDK plan's
-# "no CI smoke test" note in swiftpm-migration-spec.md).
+# compiles the native iOS layer — this closes that gap.
 
 on:
     pull_request:
