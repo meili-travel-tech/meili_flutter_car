@@ -4,8 +4,8 @@
 
 - **New:** forwards `MeiliCarParams.onError` to the Dart `MeiliCarErrorEvent` (MPD-10790).
   Requires `meili_flutter_car_platform_interface` with `MeiliCarErrorEvent` and an unreleased
-  `MeiliCarSDK` with `onError`; the podspec/`Package.swift` pin stays at `1.12.0` until that
-  SDK release ships.
+  `MeiliCarSDK` with `onError`; this does not build against the pinned `1.12.0`, so the pins
+  move in the same release.
 
 ## 0.5.0
 

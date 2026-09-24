@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- **New:** `MeiliCarErrorEvent`, a `MeiliCarEvent` variant forwarding SDK-internal failures
+- **New (breaking):** `MeiliCarErrorEvent`, a `MeiliCarEvent` variant forwarding SDK-internal failures
   (config, availability, costs, checkout, reservation, partner-content requests) from a new
   native `onError` callback. Carries `area` (`MeiliCarErrorArea`), `kind` (`MeiliCarErrorKind`),
   an optional `httpCode`, and a release-safe `message` (MPD-10790).
@@ -17,8 +17,9 @@
   });
   ```
 
-  Depends on unreleased native SDKs (`MeiliCarSDK` and `com.meili.travel:meili-car-sdk`), so no
-  events are emitted yet on either platform.
+  **Breaking** for an exhaustive `switch` over `MeiliCarEvent` with no default case: add a
+  `MeiliCarErrorEvent` case. Ships together with the native SDK releases that add `onError`; the
+  platform plugins don't build against the currently pinned SDKs.
 
 ## 0.8.0
 

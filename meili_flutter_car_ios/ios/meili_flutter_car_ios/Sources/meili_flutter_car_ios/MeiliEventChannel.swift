@@ -87,6 +87,7 @@ extension MeiliCarErrorArea {
         case .checkout: return "checkout"
         case .reservation: return "reservation"
         case .partnerContent: return "partnerContent"
+        @unknown default: return "unknown"
         }
     }
 }
@@ -99,6 +100,7 @@ extension MeiliCarErrorKind {
         case .http: return "http"
         case .decode: return "decode"
         case .unexpected: return "unexpected"
+        @unknown default: return "unknown"
         }
     }
 }

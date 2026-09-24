@@ -1,6 +1,6 @@
 ## Unreleased
 
-- **New:** `MeiliCarErrorEvent`, a `MeiliCarEvent` forwarding SDK-internal failures (config,
+- **New (breaking for exhaustive switches):** `MeiliCarErrorEvent`, a `MeiliCarEvent` forwarding SDK-internal failures (config,
   availability, costs, checkout, reservation, partner-content requests) reported by the native
   SDK's `onError` callback. Carries `area` (`MeiliCarErrorArea`), `kind` (`MeiliCarErrorKind`),
   an optional `httpCode`, and a release-safe `message`. Both enums fall back to `unknown` for a

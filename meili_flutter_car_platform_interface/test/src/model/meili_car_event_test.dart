@@ -3,6 +3,26 @@ import 'package:meili_flutter_car_platform_interface/meili_flutter_car_platform_
 
 void main() {
   group('MeiliCarEvent.fromMap', () {
+    test('error tolerates a non-int httpCode', () {
+      final fractional = MeiliCarEvent.fromMap({
+        'type': 'error',
+        'area': 'costs',
+        'kind': 'http',
+        'httpCode': 503.0,
+        'message': 'costs request failed: HTTP 503',
+      }) as MeiliCarErrorEvent;
+      expect(fractional.httpCode, 503);
+
+      final textual = MeiliCarEvent.fromMap({
+        'type': 'error',
+        'area': 'costs',
+        'kind': 'http',
+        'httpCode': '503',
+        'message': 'costs request failed: HTTP 503',
+      }) as MeiliCarErrorEvent;
+      expect(textual.httpCode, isNull);
+    });
+
     test('parses flowDismissed', () {
       expect(
         MeiliCarEvent.fromMap({'type': 'flowDismissed'}),

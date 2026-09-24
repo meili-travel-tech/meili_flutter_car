@@ -4,8 +4,8 @@
 
 - **New:** forwards `MeiliCarComposeListener.onError` to the Dart `MeiliCarErrorEvent` (MPD-10790).
   Requires `meili_flutter_car_platform_interface` with `MeiliCarErrorEvent` and an unreleased
-  `com.meili.travel:meili-car-sdk` with `onError`; the pin stays at `1.11.0` until that SDK
-  release ships.
+  `com.meili.travel:meili-car-sdk` with `onError`; this does not build against the pinned `1.11.0`, so the pin
+  moves in the same release.
 
 ## 0.5.0
 

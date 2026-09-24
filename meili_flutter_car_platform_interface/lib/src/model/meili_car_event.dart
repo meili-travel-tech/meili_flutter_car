@@ -54,7 +54,10 @@ sealed class MeiliCarEvent {
         MeiliCarErrorEvent(
           area: MeiliCarErrorArea._fromWire(area),
           kind: MeiliCarErrorKind._fromWire(kind),
-          httpCode: map['httpCode'] as int?,
+          httpCode: switch (map['httpCode']) {
+            final num code => code.toInt(),
+            _ => null
+          },
           message: message,
         ),
       {'type': final String type} => MeiliCarUnknownEvent(type: type, raw: map),
