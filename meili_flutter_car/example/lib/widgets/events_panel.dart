@@ -59,12 +59,15 @@ class _EventTile extends StatelessWidget {
         MeiliCarFlowDismissed() => 'Flow dismissed',
         MeiliCarBookingFlowEnded() => 'Booking flow ended',
         MeiliCarAnalyticsEvent(:final name) => 'Analytics · $name',
+        MeiliCarErrorEvent(:final area, :final kind) => 'Error · $area/$kind',
         MeiliCarUnknownEvent(:final type) => 'Unknown · $type',
       };
 
   String? get _subtitle => switch (event) {
         MeiliCarAnalyticsEvent(:final properties) =>
           properties.isEmpty ? null : properties.toString(),
+        MeiliCarErrorEvent(:final httpCode, :final message) =>
+          httpCode == null ? message : '$message (HTTP $httpCode)',
         _ => null,
       };
 }

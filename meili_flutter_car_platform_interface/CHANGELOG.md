@@ -1,3 +1,13 @@
+## Unreleased
+
+- **New:** `MeiliCarErrorEvent`, a `MeiliCarEvent` forwarding SDK-internal failures (config,
+  availability, costs, checkout, reservation, partner-content requests) reported by the native
+  SDK's `onError` callback. Carries `area` (`MeiliCarErrorArea`), `kind` (`MeiliCarErrorKind`),
+  an optional `httpCode`, and a release-safe `message`. Both enums fall back to `unknown` for a
+  value a future native SDK might send that this version doesn't yet model (MPD-10790). Depends
+  on an unreleased `MeiliCarSDK`/Android SDK `onError`; not yet consumable until both platform
+  packages pin a release that has it.
+
 ## 0.5.0
 
 - **Renamed from `meili_flutter_platform_interface`** (MPD-11470). `MeiliFlutterPlatform` →

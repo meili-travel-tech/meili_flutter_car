@@ -64,6 +64,43 @@ final class MeiliEventDispatcher: NSObject, FlutterStreamHandler {
         retainPopToRoot(popToRoot)
         send(["type": "bookingFlowEnded"])
     }
+
+    /// Emits an `error` event for an SDK-reported `MeiliCarError`.
+    func sendError(_ error: MeiliCarError) {
+        send([
+            "type": "error",
+            "area": error.area.wireValue,
+            "kind": error.kind.wireValue,
+            "httpCode": error.httpCode.map { $0 as Any } ?? NSNull(),
+            "message": error.message,
+        ])
+    }
+}
+
+extension MeiliCarErrorArea {
+    /// The wire string sent to Dart, matching `MeiliCarErrorArea`'s values there.
+    var wireValue: String {
+        switch self {
+        case .config: return "config"
+        case .availability: return "availability"
+        case .costs: return "costs"
+        case .checkout: return "checkout"
+        case .reservation: return "reservation"
+        case .partnerContent: return "partnerContent"
+        }
+    }
+}
+
+extension MeiliCarErrorKind {
+    /// The wire string sent to Dart, matching `MeiliCarErrorKind`'s values there.
+    var wireValue: String {
+        switch self {
+        case .network: return "network"
+        case .http: return "http"
+        case .decode: return "decode"
+        case .unexpected: return "unexpected"
+        }
+    }
 }
 
 /// Forwards every SDK analytics event to the Dart event stream. Registered
