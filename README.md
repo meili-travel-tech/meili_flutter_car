@@ -132,9 +132,15 @@ class _MyPageState extends State<MyPage> {
   void initState() {
     super.initState();
     MeiliCar.events.listen((event) {
-      if (event is MeiliCarFlowDismissed) {
-        // User closed the MeiliCar flow
-        Navigator.of(context).pop();
+      switch (event) {
+        case MeiliCarFlowDismissed():
+          // User closed the MeiliCar flow
+          Navigator.of(context).pop();
+        case MeiliCarErrorEvent(:final area, :final kind, :final message):
+          // An SDK-internal failure occurred (log it, report to analytics, etc.)
+          log('MeiliCar error: $area/$kind — $message');
+        case _:
+          break;
       }
     });
   }

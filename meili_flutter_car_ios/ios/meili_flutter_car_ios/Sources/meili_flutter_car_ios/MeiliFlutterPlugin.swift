@@ -68,7 +68,10 @@ public class MeiliFlutterPlugin: NSObject, FlutterPlugin {
             flow: meiliFlow,
             env: environment,
             availParams: availParams,
-            additionalParams: additionalParams
+            additionalParams: additionalParams,
+            onError: { error in
+                MeiliEventDispatcher.shared.sendError(error)
+            }
         )
         
         viewController.meiliParams = meiliParams

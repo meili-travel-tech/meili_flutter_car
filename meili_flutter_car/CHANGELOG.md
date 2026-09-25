@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased
+
+- **New (breaking):** `MeiliCarErrorEvent`, a `MeiliCarEvent` variant forwarding SDK-internal failures
+  (config, availability, costs, checkout, reservation, partner-content requests) from a new
+  native `onError` callback. Carries `area` (`MeiliCarErrorArea`), `kind` (`MeiliCarErrorKind`),
+  an optional `httpCode`, and a release-safe `message` (MPD-10790).
+
+  ```dart
+  MeiliCar.events.listen((event) {
+    switch (event) {
+      case MeiliCarErrorEvent(:final area, :final kind, :final message):
+        log('MeiliCar error: $area/$kind — $message');
+      // ...
+    }
+  });
+  ```
+
+  **Breaking** for an exhaustive `switch` over `MeiliCarEvent` with no default case: add a
+  `MeiliCarErrorEvent` case. Ships together with the native SDK releases that add `onError`; the
+  platform plugins don't build against the currently pinned SDKs.
+
 ## 0.8.0
 
 - **BREAKING: `meili_flutter` is renamed to `meili_flutter_car`**, part of Meili's product-scoped

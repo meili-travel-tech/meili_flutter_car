@@ -3,6 +3,26 @@ import 'package:meili_flutter_car_platform_interface/meili_flutter_car_platform_
 
 void main() {
   group('MeiliCarEvent.fromMap', () {
+    test('error tolerates a non-int httpCode', () {
+      final fractional = MeiliCarEvent.fromMap({
+        'type': 'error',
+        'area': 'costs',
+        'kind': 'http',
+        'httpCode': 503.0,
+        'message': 'costs request failed: HTTP 503',
+      }) as MeiliCarErrorEvent;
+      expect(fractional.httpCode, 503);
+
+      final textual = MeiliCarEvent.fromMap({
+        'type': 'error',
+        'area': 'costs',
+        'kind': 'http',
+        'httpCode': '503',
+        'message': 'costs request failed: HTTP 503',
+      }) as MeiliCarErrorEvent;
+      expect(textual.httpCode, isNull);
+    });
+
     test('parses flowDismissed', () {
       expect(
         MeiliCarEvent.fromMap({'type': 'flowDismissed'}),
@@ -56,6 +76,99 @@ void main() {
         throwsA(isA<FormatException>()),
       );
     });
+
+    test('parses a full error event', () {
+      final event = MeiliCarEvent.fromMap({
+        'type': 'error',
+        'area': 'checkout',
+        'kind': 'http',
+        'httpCode': 502,
+        'message': 'checkout request failed: HTTP 502',
+      });
+      expect(event, isA<MeiliCarErrorEvent>());
+      final error = event as MeiliCarErrorEvent;
+      expect(error.area, MeiliCarErrorArea.checkout);
+      expect(error.kind, MeiliCarErrorKind.http);
+      expect(error.httpCode, 502);
+      expect(error.message, 'checkout request failed: HTTP 502');
+    });
+
+    test('parses an error event with a null httpCode', () {
+      final event = MeiliCarEvent.fromMap({
+        'type': 'error',
+        'area': 'availability',
+        'kind': 'network',
+        'httpCode': null,
+        'message': 'no connectivity',
+      }) as MeiliCarErrorEvent;
+      expect(event.httpCode, isNull);
+    });
+
+    test('parses an error event with a missing httpCode', () {
+      final event = MeiliCarEvent.fromMap({
+        'type': 'error',
+        'area': 'config',
+        'kind': 'decode',
+        'message': 'malformed config response',
+      }) as MeiliCarErrorEvent;
+      expect(event.httpCode, isNull);
+    });
+
+    test('parses every error area and kind', () {
+      const areas = {
+        'config': MeiliCarErrorArea.config,
+        'availability': MeiliCarErrorArea.availability,
+        'costs': MeiliCarErrorArea.costs,
+        'checkout': MeiliCarErrorArea.checkout,
+        'reservation': MeiliCarErrorArea.reservation,
+        'partnerContent': MeiliCarErrorArea.partnerContent,
+      };
+      const kinds = {
+        'network': MeiliCarErrorKind.network,
+        'http': MeiliCarErrorKind.http,
+        'decode': MeiliCarErrorKind.decode,
+        'unexpected': MeiliCarErrorKind.unexpected,
+      };
+      for (final areaEntry in areas.entries) {
+        for (final kindEntry in kinds.entries) {
+          final event = MeiliCarEvent.fromMap({
+            'type': 'error',
+            'area': areaEntry.key,
+            'kind': kindEntry.key,
+            'message': 'm',
+          }) as MeiliCarErrorEvent;
+          expect(event.area, areaEntry.value);
+          expect(event.kind, kindEntry.value);
+        }
+      }
+    });
+
+    test('an unrecognised error area falls back to unknown', () {
+      final event = MeiliCarEvent.fromMap({
+        'type': 'error',
+        'area': 'somethingNew',
+        'kind': 'network',
+        'message': 'm',
+      }) as MeiliCarErrorEvent;
+      expect(event.area, MeiliCarErrorArea.unknown);
+    });
+
+    test('an unrecognised error kind falls back to unknown', () {
+      final event = MeiliCarEvent.fromMap({
+        'type': 'error',
+        'area': 'config',
+        'kind': 'somethingNew',
+        'message': 'm',
+      }) as MeiliCarErrorEvent;
+      expect(event.kind, MeiliCarErrorKind.unknown);
+    });
+
+    test('error event without area/kind/message falls back to unknown', () {
+      expect(
+        MeiliCarEvent.fromMap({'type': 'error'}),
+        isA<MeiliCarUnknownEvent>(),
+      );
+    });
   });
 
   group('MeiliCarEvent.toMap', () {
@@ -71,6 +184,21 @@ void main() {
           'type': 'analytics',
           'name': 'e',
           'properties': {'a': 1},
+        },
+      );
+      expect(
+        const MeiliCarErrorEvent(
+          area: MeiliCarErrorArea.checkout,
+          kind: MeiliCarErrorKind.http,
+          httpCode: 502,
+          message: 'm',
+        ).toMap(),
+        {
+          'type': 'error',
+          'area': 'checkout',
+          'kind': 'http',
+          'httpCode': 502,
+          'message': 'm',
         },
       );
     });
