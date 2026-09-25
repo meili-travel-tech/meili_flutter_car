@@ -43,8 +43,8 @@ final class MeiliEventDispatcher: NSObject, FlutterStreamHandler {
         }
     }
 
-    /// Retains the `popToRoot` action delivered with the latest end-of-flow
-    /// event so it can be triggered later via the `popToRoot` method call.
+    /// Retains the `popToRoot` closure delivered with the end-of-flow event.
+    /// Since MeiliCarSDK 1.13.0 that closure is itself a compatibility no-op.
     func retainPopToRoot(_ action: @escaping () -> Void) {
         pendingPopToRoot = action
     }
