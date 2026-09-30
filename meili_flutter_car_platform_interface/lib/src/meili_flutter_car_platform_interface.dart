@@ -29,8 +29,8 @@ abstract class MeiliCarFlutterPlatform extends PlatformInterface {
     throw UnimplementedError('events has not been implemented.');
   }
 
-  /// Invokes the SDK's retained `popToRoot` action, typically in response to a
-  /// [MeiliCarBookingFlowEnded] event. No-op if there is nothing to pop.
+  /// Kept for older app packages that still call it. A no-op from
+  /// MeiliCarSDK 1.13.0, which resets itself to its search panel on its own.
   Future<void> popToRoot() {
     throw UnimplementedError('popToRoot() has not been implemented.');
   }

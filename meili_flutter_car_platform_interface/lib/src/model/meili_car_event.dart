@@ -73,8 +73,8 @@ final class MeiliCarFlowDismissed extends MeiliCarEvent {
 
 /// The booking flow reached its end (maps to the SDK's `onEndBookingFlow`).
 ///
-/// Call `MeiliCar.popToRoot()` from the app-facing package to invoke the SDK's
-/// retained `popToRoot` action in response.
+/// Informational only: the SDK resets itself to its own search panel
+/// immediately after this event; no host action is required.
 final class MeiliCarBookingFlowEnded extends MeiliCarEvent {
   /// Creates a booking-flow-ended event.
   const MeiliCarBookingFlowEnded();

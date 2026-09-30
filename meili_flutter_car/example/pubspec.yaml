@@ -1,6 +1,6 @@
 name: meili_flutter_car_example
 description: Demonstrates how to use the meili_flutter_car plugin.
-version: 0.8.0+1
+version: 0.9.0+1
 publish_to: none
 
 environment:
@@ -14,7 +14,7 @@ dependencies:
     # the federated platform packages to the in-repo source, so day-to-day
     # `flutter run` builds against local changes. Bump this to the version you
     # published before building against pub.dev (see scripts/build_published.sh).
-    meili_flutter_car: ^0.8.0
+    meili_flutter_car: ^0.9.0
     shared_preferences: ^2.3.2
 
 dev_dependencies:

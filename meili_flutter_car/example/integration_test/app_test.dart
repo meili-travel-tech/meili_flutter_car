@@ -28,7 +28,8 @@ void main() {
 
     testWidgets(
         'MeiliCar.open() presents the funnel over the renamed native chain '
-        'and MeiliCar.popToRoot() round-trips', (tester) async {
+        'and bookingFlowEnded round-trip (popToRoot kept as a deprecated '
+        'no-op)', (tester) async {
       final events = <MeiliCarEvent>[];
       final subscription = MeiliCar.events.listen(events.add);
       addTearDown(subscription.cancel);
@@ -46,6 +47,7 @@ void main() {
       // hanging the suite if it doesn't.
       await tester.runAsync(() async {
         await Future<void>.delayed(const Duration(seconds: 5));
+        // ignore: deprecated_member_use
         await MeiliCar.popToRoot();
         await Future<void>.delayed(const Duration(seconds: 2));
       }).timeout(
@@ -58,7 +60,7 @@ void main() {
       await tester.pump();
       expect(find.text('Launch MeiliCar'), findsOneWidget);
       // ignore: avoid_print
-      print('MeiliCar events observed after open()+popToRoot(): $events');
+      print('MeiliCar events observed after open()+bookingFlowEnded: $events');
     });
   });
 }

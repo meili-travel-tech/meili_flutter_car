@@ -16,7 +16,7 @@ let package = Package(
         //
         // `from:` tracks the latest 1.x stable. Keep this aligned with the
         // CocoaPods channel (meili_flutter_car_ios.podspec).
-        .package(url: "https://github.com/meili-travel-tech/ux-native-ios", from: "1.12.0")
+        .package(url: "https://github.com/meili-travel-tech/ux-native-ios", from: "1.13.0")
     ],
     targets: [
         .target(

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0
+
+- Pins `MeiliCarSDK` `1.13.0` in both the podspec and `Package.swift`.
+- **Fixes "Start again" doing nothing on the confirmation screen for Flutter
+  hosts.** The SDK now resets to the search panel itself instead of relying
+  on the host to call the retained `popToRoot` closure, which Flutter hosts
+  had no reason to call (MPD-11466).
+
 ## 0.5.0
 
 - **Renamed from `meili_flutter_ios`** (MPD-11470). Pins `MeiliCarSDK` `1.12.0` (was `MeiliSDK`
