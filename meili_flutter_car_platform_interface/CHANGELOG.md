@@ -1,5 +1,10 @@
-## 0.5.1
+## 0.6.0
 
+- **New (breaking for exhaustive switches):** `MeiliCarErrorEvent`, a `MeiliCarEvent` forwarding SDK-internal failures (config,
+  availability, costs, checkout, reservation, partner-content requests) reported by the native
+  SDK's `onError` callback. Carries `area` (`MeiliCarErrorArea`), `kind` (`MeiliCarErrorKind`),
+  an optional `httpCode`, and a release-safe `message`. Both enums fall back to `unknown` for a
+  value a future native SDK might send that this version doesn't yet model (MPD-10790).
 - Doc-only: corrects the `popToRoot` and `MeiliCarBookingFlowEnded` doc
   comments, which told hosts to call `popToRoot`. The SDK resets itself to
   its search panel on its own; `popToRoot` is kept only for older app

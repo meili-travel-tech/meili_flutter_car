@@ -2,6 +2,7 @@ import Flutter
 import UIKit
 import MeiliCarSDK
 import CoreText
+import os
 
 public class MeiliFlutterPlugin: NSObject, FlutterPlugin {
     private var window: UIWindow?
@@ -68,7 +69,10 @@ public class MeiliFlutterPlugin: NSObject, FlutterPlugin {
             flow: meiliFlow,
             env: environment,
             availParams: availParams,
-            additionalParams: additionalParams
+            additionalParams: additionalParams,
+            onError: { error in
+                MeiliEventDispatcher.shared.sendError(error)
+            }
         )
         
         viewController.meiliParams = meiliParams
@@ -88,9 +92,11 @@ public class MeiliFlutterPlugin: NSObject, FlutterPlugin {
 }
 
 
+private let fontLogger = Logger(subsystem: "com.meili.travel.flutter.car", category: "fonts")
+
 func registerAllFonts() {
     guard let resourcePath = Bundle.main.resourcePath else {
-        print("Resource path not found")
+        fontLogger.error("Resource path not found")
         return
     }
     
@@ -103,12 +109,12 @@ func registerAllFonts() {
         for fontFile in fontFiles {
             let fontURL = URL(fileURLWithPath: fontPath).appendingPathComponent(fontFile)
             guard let fontData = try? Data(contentsOf: fontURL) else {
-                print("Failed to load font data for \(fontFile)")
+                fontLogger.error("Failed to load font data for \(fontFile, privacy: .public)")
                 continue
             }
             
             guard let dataProvider = CGDataProvider(data: fontData as CFData) else {
-                print("Failed to create data provider for \(fontFile)")
+                fontLogger.error("Failed to create data provider for \(fontFile, privacy: .public)")
                 continue
             }
             
@@ -117,11 +123,11 @@ func registerAllFonts() {
             if let fr = fontRef {
                 if CTFontManagerRegisterGraphicsFont(fr, &errorRef) {
                 } else {
-                    print("Failed to register font: \(fontFile)")
+                    fontLogger.error("Failed to register font: \(fontFile, privacy: .public)")
                 }
             }
         }
     } catch {
-        print("Failed to list fonts in directory: \(error)")
+        fontLogger.error("Failed to list fonts in directory: \(error.localizedDescription, privacy: .public)")
     }
 }

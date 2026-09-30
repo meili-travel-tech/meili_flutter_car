@@ -21,8 +21,8 @@ flutter:
 dependencies:
     flutter:
         sdk: flutter
-    meili_flutter_car_platform_interface: ^0.5.0
-    meili_flutter_car_android: ^0.5.1
+    meili_flutter_car_platform_interface: ^0.6.0
+    meili_flutter_car_android: ^0.6.0
     meili_flutter_car_ios: ^0.6.0
 
 dev_dependencies:

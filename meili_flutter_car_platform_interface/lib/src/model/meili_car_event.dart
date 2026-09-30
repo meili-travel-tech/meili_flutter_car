@@ -15,6 +15,8 @@ import 'package:flutter/foundation.dart';
 ///       // booking flow reached its end
 ///     case MeiliCarAnalyticsEvent(:final name):
 ///       // an analytics event was tracked
+///     case MeiliCarErrorEvent(:final area, :final message):
+///       // an SDK-internal failure occurred
 ///     case MeiliCarUnknownEvent():
 ///       // a future event type; safe to ignore
 ///   }
@@ -42,6 +44,18 @@ sealed class MeiliCarEvent {
         MeiliCarAnalyticsEvent(
           name: name,
           properties: _coerceProperties(map['properties']),
+        ),
+      {'type': 'error'} => MeiliCarErrorEvent(
+          area: MeiliCarErrorArea._fromWire(map['area']),
+          kind: MeiliCarErrorKind._fromWire(map['kind']),
+          httpCode: switch (map['httpCode']) {
+            final num code => code.toInt(),
+            _ => null
+          },
+          message: switch (map['message']) {
+            final String message => message,
+            _ => '',
+          },
         ),
       {'type': final String type} => MeiliCarUnknownEvent(type: type, raw: map),
       _ => throw const FormatException(
@@ -104,6 +118,76 @@ final class MeiliCarAnalyticsEvent extends MeiliCarEvent {
         'type': 'analytics',
         'name': name,
         'properties': properties,
+      };
+}
+
+/// Which part of the SDK a reported [MeiliCarErrorEvent] originated in.
+enum MeiliCarErrorArea {
+  config,
+  availability,
+  costs,
+  checkout,
+  reservation,
+  partnerContent,
+
+  /// A future area this version of the plugin does not yet model.
+  unknown;
+
+  // The wire value is the case name, so renaming a case changes the contract
+  // with both native plugins.
+  static MeiliCarErrorArea _fromWire(Object? value) =>
+      values.asNameMap()[value] ?? unknown;
+}
+
+/// Broad failure category of a [MeiliCarErrorEvent], independent of its
+/// [MeiliCarErrorArea].
+enum MeiliCarErrorKind {
+  network,
+  http,
+  decode,
+  unexpected,
+
+  /// A future kind this version of the plugin does not yet model.
+  unknown;
+
+  // The wire value is the case name, as for [MeiliCarErrorArea].
+  static MeiliCarErrorKind _fromWire(Object? value) =>
+      values.asNameMap()[value] ?? unknown;
+}
+
+/// A classified SDK failure (maps to the SDK's `onError` callback).
+///
+/// [message] is release-safe by construction on the native side: built only
+/// from a static label plus an HTTP status code or type name, never a
+/// response body or `localizedDescription`.
+final class MeiliCarErrorEvent extends MeiliCarEvent {
+  /// Creates an error event.
+  const MeiliCarErrorEvent({
+    required this.area,
+    required this.kind,
+    required this.httpCode,
+    required this.message,
+  });
+
+  /// Which part of the SDK the failure originated in.
+  final MeiliCarErrorArea area;
+
+  /// The broad failure category.
+  final MeiliCarErrorKind kind;
+
+  /// The HTTP status code, when [kind] is [MeiliCarErrorKind.http].
+  final int? httpCode;
+
+  /// A release-safe description of the failure.
+  final String message;
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'type': 'error',
+        'area': area.name,
+        'kind': kind.name,
+        'httpCode': httpCode,
+        'message': message,
       };
 }
 

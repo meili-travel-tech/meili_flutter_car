@@ -4,6 +4,9 @@ import androidx.activity.ComponentActivity
 import com.meili.travel.car.api.AvailParams
 import com.meili.travel.car.api.MeiliCarActivity
 import com.meili.travel.car.api.MeiliCarComposeListener
+import com.meili.travel.car.api.MeiliCarError
+import com.meili.travel.car.api.MeiliCarErrorArea
+import com.meili.travel.car.api.MeiliCarErrorKind
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -62,6 +65,18 @@ class MeiliFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                             eventSink?.success(mapOf("type" to "bookingFlowEnded"))
                             callback?.invoke()
                         }
+
+                        override fun onError(error: MeiliCarError) {
+                            eventSink?.success(
+                                mapOf(
+                                    "type" to "error",
+                                    "area" to error.area.wireValue(),
+                                    "kind" to error.kind.wireValue(),
+                                    "httpCode" to error.httpCode,
+                                    "message" to error.message,
+                                ),
+                            )
+                        }
                     },
                     onBack = {
                         eventSink?.success(mapOf("type" to "flowDismissed"))
@@ -94,4 +109,22 @@ class MeiliFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     override fun onDetachedFromActivity() {
         activity = null
     }
+}
+
+/** The wire string sent to Dart, matching `MeiliCarErrorArea`'s values there. */
+private fun MeiliCarErrorArea.wireValue(): String = when (this) {
+    MeiliCarErrorArea.CONFIG -> "config"
+    MeiliCarErrorArea.AVAILABILITY -> "availability"
+    MeiliCarErrorArea.COSTS -> "costs"
+    MeiliCarErrorArea.CHECKOUT -> "checkout"
+    MeiliCarErrorArea.RESERVATION -> "reservation"
+    MeiliCarErrorArea.PARTNER_CONTENT -> "partnerContent"
+}
+
+/** The wire string sent to Dart, matching `MeiliCarErrorKind`'s values there. */
+private fun MeiliCarErrorKind.wireValue(): String = when (this) {
+    MeiliCarErrorKind.NETWORK -> "network"
+    MeiliCarErrorKind.HTTP -> "http"
+    MeiliCarErrorKind.DECODE -> "decode"
+    MeiliCarErrorKind.UNEXPECTED -> "unexpected"
 }
