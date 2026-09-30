@@ -59,7 +59,7 @@ class _EventTile extends StatelessWidget {
         MeiliCarFlowDismissed() => 'Flow dismissed',
         MeiliCarBookingFlowEnded() => 'Booking flow ended',
         MeiliCarAnalyticsEvent(:final name) => 'Analytics · $name',
-        MeiliCarErrorEvent(:final area, :final kind) => 'Error · $area/$kind',
+        MeiliCarErrorEvent(:final area, :final kind) => 'Error · ${area.name}/${kind.name}',
         MeiliCarUnknownEvent(:final type) => 'Unknown · $type',
       };
 
