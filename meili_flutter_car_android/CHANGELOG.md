@@ -2,7 +2,7 @@
 
 ## 0.5.1
 
-- Pins `com.meili.travel:meili-car-sdk` `1.11.1`, which resolves vendor-link
+- Pins `com.meili.travel:meili-car-sdk` `1.12.0`, which resolves vendor-link
   URLs by exact language tag → language → en → first and hides the
   confirmation "More options" block when a vendor has no links (MPD-11466).
   No plugin code change.
