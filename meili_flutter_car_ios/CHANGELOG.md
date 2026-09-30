@@ -7,6 +7,8 @@
   hosts.** The SDK now resets to the search panel itself instead of relying
   on the host to call the retained `popToRoot` closure, which Flutter hosts
   had no reason to call (MPD-11466).
+- **New:** forwards `MeiliCarParams.onError` to the Dart `MeiliCarErrorEvent` (MPD-10790).
+  Requires `meili_flutter_car_platform_interface` `^0.6.0`.
 
 ## 0.5.0
 

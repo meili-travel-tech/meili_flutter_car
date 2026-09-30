@@ -9,7 +9,25 @@
 - `MeiliCar.popToRoot()` is deprecated. On iOS the SDK's `popToRoot` closure
   is a compatibility no-op from MeiliCarSDK 1.13.0; on Android the call has
   always been a no-op.
-- Requires `meili_flutter_car_ios` `^0.6.0` and `meili_flutter_car_android` `^0.5.1`.
+- **New (breaking):** `MeiliCarErrorEvent`, a `MeiliCarEvent` variant forwarding SDK-internal failures
+  (config, availability, costs, checkout, reservation, partner-content requests) from the
+  native `onError` callback. Carries `area` (`MeiliCarErrorArea`), `kind` (`MeiliCarErrorKind`),
+  an optional `httpCode`, and a release-safe `message` (MPD-10790).
+
+  ```dart
+  MeiliCar.events.listen((event) {
+    switch (event) {
+      case MeiliCarErrorEvent(:final area, :final kind, :final message):
+        log('MeiliCar error: $area/$kind — $message');
+      // ...
+    }
+  });
+  ```
+
+  **Breaking** for an exhaustive `switch` over `MeiliCarEvent` with no default case: add a
+  `MeiliCarErrorEvent` case.
+- Requires `meili_flutter_car_platform_interface` `^0.6.0`, `meili_flutter_car_ios` `^0.6.0`
+  and `meili_flutter_car_android` `^0.6.0`.
 
 ## 0.8.0
 

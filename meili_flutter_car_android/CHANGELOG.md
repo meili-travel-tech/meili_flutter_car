@@ -1,11 +1,12 @@
 # Changelog
 
-## 0.5.1
+## 0.6.0
 
 - Pins `com.meili.travel:meili-car-sdk` `1.12.0`, which resolves vendor-link
   URLs by exact language tag → language → en → first and hides the
   confirmation "More options" block when a vendor has no links (MPD-11466).
-  No plugin code change.
+- **New:** forwards `MeiliCarComposeListener.onError` to the Dart `MeiliCarErrorEvent` (MPD-10790).
+  Requires `meili_flutter_car_platform_interface` `^0.6.0`.
 
 ## 0.5.0
 

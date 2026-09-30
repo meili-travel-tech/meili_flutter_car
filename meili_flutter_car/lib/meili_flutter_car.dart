@@ -12,4 +12,7 @@ export 'package:meili_flutter_car_platform_interface/meili_flutter_car_platform_
         MeiliCarFlowDismissed,
         MeiliCarBookingFlowEnded,
         MeiliCarAnalyticsEvent,
+        MeiliCarErrorEvent,
+        MeiliCarErrorArea,
+        MeiliCarErrorKind,
         MeiliCarUnknownEvent;
