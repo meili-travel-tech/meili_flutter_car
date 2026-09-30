@@ -163,11 +163,29 @@ void main() {
       expect(event.kind, MeiliCarErrorKind.unknown);
     });
 
-    test('error event without area/kind/message falls back to unknown', () {
-      expect(
-        MeiliCarEvent.fromMap({'type': 'error'}),
-        isA<MeiliCarUnknownEvent>(),
-      );
+    test('an error event missing area, kind and message is still an error',
+        () {
+      final event = MeiliCarEvent.fromMap(const {'type': 'error', 'httpCode': 500});
+
+      expect(event, isA<MeiliCarErrorEvent>());
+      event as MeiliCarErrorEvent;
+      expect(event.area, MeiliCarErrorArea.unknown);
+      expect(event.kind, MeiliCarErrorKind.unknown);
+      expect(event.httpCode, 500);
+      expect(event.message, '');
+    });
+
+    test('non-string error fields decode as unknown and empty', () {
+      final event = MeiliCarEvent.fromMap(const {
+        'type': 'error',
+        'area': 1,
+        'kind': null,
+        'message': 42,
+      }) as MeiliCarErrorEvent;
+
+      expect(event.area, MeiliCarErrorArea.unknown);
+      expect(event.kind, MeiliCarErrorKind.unknown);
+      expect(event.message, '');
     });
   });
 

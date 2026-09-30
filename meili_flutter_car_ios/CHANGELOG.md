@@ -9,6 +9,8 @@
   had no reason to call (MPD-11466).
 - **New:** forwards `MeiliCarParams.onError` to the Dart `MeiliCarErrorEvent` (MPD-10790).
   Requires `meili_flutter_car_platform_interface` `^0.6.0`.
+- Font-registration failures are logged through `os.Logger` (subsystem
+  `com.meili.travel.flutter.car`) instead of `print` (MPD-10790).
 
 ## 0.5.0
 

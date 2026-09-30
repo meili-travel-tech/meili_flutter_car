@@ -123,6 +123,8 @@ availParams: AvailParams(currencyCode: 'GBP'),
 ### Listening for events
 
 ```dart
+import 'dart:developer';
+
 import 'package:meili_flutter_car/meili_flutter_car.dart';
 
 class MyPage extends StatefulWidget { ... }

@@ -65,7 +65,6 @@ final class MeiliEventDispatcher: NSObject, FlutterStreamHandler {
         send(["type": "bookingFlowEnded"])
     }
 
-    /// Emits an `error` event for an SDK-reported `MeiliCarError`.
     func sendError(_ error: MeiliCarError) {
         send([
             "type": "error",

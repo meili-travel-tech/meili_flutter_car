@@ -45,20 +45,17 @@ sealed class MeiliCarEvent {
           name: name,
           properties: _coerceProperties(map['properties']),
         ),
-      {
-        'type': 'error',
-        'area': final String area,
-        'kind': final String kind,
-        'message': final String message,
-      } =>
-        MeiliCarErrorEvent(
-          area: MeiliCarErrorArea._fromWire(area),
-          kind: MeiliCarErrorKind._fromWire(kind),
+      {'type': 'error'} => MeiliCarErrorEvent(
+          area: MeiliCarErrorArea._fromWire(map['area']),
+          kind: MeiliCarErrorKind._fromWire(map['kind']),
           httpCode: switch (map['httpCode']) {
             final num code => code.toInt(),
             _ => null
           },
-          message: message,
+          message: switch (map['message']) {
+            final String message => message,
+            _ => '',
+          },
         ),
       {'type': final String type} => MeiliCarUnknownEvent(type: type, raw: map),
       _ => throw const FormatException(
@@ -136,25 +133,10 @@ enum MeiliCarErrorArea {
   /// A future area this version of the plugin does not yet model.
   unknown;
 
-  static MeiliCarErrorArea _fromWire(String value) => switch (value) {
-        'config' => config,
-        'availability' => availability,
-        'costs' => costs,
-        'checkout' => checkout,
-        'reservation' => reservation,
-        'partnerContent' => partnerContent,
-        _ => unknown,
-      };
-
-  String get _wireValue => switch (this) {
-        config => 'config',
-        availability => 'availability',
-        costs => 'costs',
-        checkout => 'checkout',
-        reservation => 'reservation',
-        partnerContent => 'partnerContent',
-        unknown => 'unknown',
-      };
+  // The wire value is the case name, so renaming a case changes the contract
+  // with both native plugins.
+  static MeiliCarErrorArea _fromWire(Object? value) =>
+      values.asNameMap()[value] ?? unknown;
 }
 
 /// Broad failure category of a [MeiliCarErrorEvent], independent of its
@@ -168,21 +150,9 @@ enum MeiliCarErrorKind {
   /// A future kind this version of the plugin does not yet model.
   unknown;
 
-  static MeiliCarErrorKind _fromWire(String value) => switch (value) {
-        'network' => network,
-        'http' => http,
-        'decode' => decode,
-        'unexpected' => unexpected,
-        _ => unknown,
-      };
-
-  String get _wireValue => switch (this) {
-        network => 'network',
-        http => 'http',
-        decode => 'decode',
-        unexpected => 'unexpected',
-        unknown => 'unknown',
-      };
+  // The wire value is the case name, as for [MeiliCarErrorArea].
+  static MeiliCarErrorKind _fromWire(Object? value) =>
+      values.asNameMap()[value] ?? unknown;
 }
 
 /// A classified SDK failure (maps to the SDK's `onError` callback).
@@ -214,8 +184,8 @@ final class MeiliCarErrorEvent extends MeiliCarEvent {
   @override
   Map<String, dynamic> toMap() => {
         'type': 'error',
-        'area': area._wireValue,
-        'kind': kind._wireValue,
+        'area': area.name,
+        'kind': kind.name,
         'httpCode': httpCode,
         'message': message,
       };
