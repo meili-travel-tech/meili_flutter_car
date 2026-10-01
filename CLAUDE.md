@@ -3,7 +3,7 @@
 Purpose: Federated Flutter plugin wrapping the Meili native Car SDKs.
 
 Packages
-- meili_flutter_car: app-facing Dart API and widgets.
+- meili_flutter_car: app-facing Dart API.
 - meili_flutter_car_ios: iOS implementation (Swift, uses MeiliCarSDK + SwiftUI).
 - meili_flutter_car_android: Android implementation (Kotlin, uses
   com.meili.travel:meili-car-sdk + Jetpack Compose).
@@ -43,7 +43,12 @@ Package notes
 
 Skills
 - Repo skills live in `.agents/skills/`, each linked from `.claude/skills/` so
-  Claude Code loads it.
+  Claude Code loads it. Tests: `flutter-add-widget-test` for package and example
+  tests, `flutter-add-integration-test` for the example's `integration_test/`
+  flows. Example-app layout bugs: `flutter-fix-layout-issues` or
+  `flutter-build-responsive-layout`. The rest target full Flutter apps and don't
+  fit the plugin; `flutter-implement-json-serialization` in particular prescribes
+  strict casts that break the lenient event decoding.
 
 ## Agent skills
 
