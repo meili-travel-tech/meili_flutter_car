@@ -58,4 +58,4 @@ Local markdown in `.scratch/<JIRA-KEY>/` (gitignored); Jira holds the tickets. S
 
 ### Domain docs
 
-Single-context: `CONTEXT.md` and `docs/adr/` at the repo root, created when the first term or decision is resolved. See `docs/agents/domain.md`.
+Single-context: `GLOSSARY.md` and `docs/adr/` at the repo root, created when the first term or decision is resolved. See `docs/agents/domain.md`.
