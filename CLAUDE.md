@@ -54,7 +54,7 @@ Skills
 
 ### Issue tracker
 
-Local markdown in `.scratch/<JIRA-KEY>/` (gitignored); Jira holds the tickets. See `docs/agents/issue-tracker.md`.
+Local markdown in the workspace root's `.scratch/<JIRA-KEY>/` (`../../.scratch/` from here, gitignored); Jira holds the tickets. See `docs/agents/issue-tracker.md`.
 
 ### Domain docs
 

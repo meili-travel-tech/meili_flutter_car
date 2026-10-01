@@ -50,4 +50,4 @@ build/
 
 meili_flutter_car_ios/ios/MeiliCarSDK.xcframework
 # Local specs, tickets and QA notes from the agent skills
-.scratch/
+.scratch
