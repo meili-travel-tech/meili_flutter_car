@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0
+
+- Pins `com.meili.travel:meili-car-sdk` 1.14.0: CCDETAILS card capture through the hosted Evervault page, partner theming, and the checkout fixes listed in `meili_flutter_car` 0.11.0 (MPD-11733). No plugin code changes. The SDK now brings in `androidx.webkit:webkit` 1.17.1, which needs compileSdk 33 or later.
+
 ## 0.7.0
 
 - Pins `com.meili.travel:meili-car-sdk` 1.13.0 (MPD-11767).

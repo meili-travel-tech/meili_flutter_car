@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0
+
+- Pins MeiliCarSDK 1.15.0 on both the CocoaPods and SwiftPM channels: CCDETAILS card capture through the hosted Evervault page, lenient decoding of costs, pre-reservation, booking and retrieve, partner theming, and iOS 26 Liquid Glass bars (MPD-11733). No plugin code changes.
+
 ## 0.7.0
 
 - Pins MeiliCarSDK 1.14.0 on both the CocoaPods and SwiftPM channels (MPD-11767).

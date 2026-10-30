@@ -1,6 +1,6 @@
 name: meili_flutter_car
 description: Meili Flutter Car plugin
-version: 0.10.0
+version: 0.11.0
 
 homepage: https://github.com/meili-travel-tech/meili_flutter_car
 repository: https://github.com/meili-travel-tech/meili_flutter_car
@@ -22,8 +22,8 @@ dependencies:
     flutter:
         sdk: flutter
     meili_flutter_car_platform_interface: ^0.7.0
-    meili_flutter_car_android: ^0.7.0
-    meili_flutter_car_ios: ^0.7.0
+    meili_flutter_car_android: ^0.8.0
+    meili_flutter_car_ios: ^0.8.0
 
 dev_dependencies:
     flutter_test:

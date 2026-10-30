@@ -29,7 +29,7 @@ The MeiliCar Flutter Plugin allows you to integrate the MeiliCar car rental expe
 
 ```yaml
 dependencies:
-  meili_flutter_car: ^0.10.0
+  meili_flutter_car: ^0.11.0
 ```
 
 ```bash
