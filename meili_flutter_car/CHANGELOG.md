@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.11.0
+
+Pins MeiliCarSDK 1.15.0 and meili-car-sdk 1.14.0 through `meili_flutter_car_ios` 0.8.0 and `meili_flutter_car_android` 0.8.0. `meili_flutter_car_platform_interface` is unchanged at 0.7.0. No Dart API changes and nothing for hosts to configure.
+
+- **New:** rates that need a card as a guarantee (`CCDETAILS` postpay, such as SNCF's Avis and Budget rates) now take the card in an add-card sheet at checkout, through a Meili-hosted Evervault page. The card is paid at the desk, not charged at booking (MPD-11733).
+- SNCF Avis cars open again: one malformed terms, extra, bundle or fee field no longer fails costs, pre-reservation, booking or retrieve, and a bookable protection bundle is always selected (iOS, MPD-12116 / MPD-12117).
+- Partners can theme the discount ribbon, modal close button, font weights, calendar and secondary button (MPD-11711 / MPD-11712 / MPD-11713).
+- Checkout and confirmation: the consent sentences show in full with every link (iOS, MPD-11881); the Book row total is labelled "Total" and the Options total counts the selected mileage plan (MPD-11882); extras, protection and mileage plan are kept when going back from Checkout to Options (MPD-11883 / MPD-11971); pickup and drop-off times follow the device's hour cycle (MPD-11753 / MPD-11754) and show the booked times on confirmation (iOS, MPD-11880).
+- iOS 26: Liquid Glass bars and system close buttons, and layouts kept clear of the iPhone Duo's vertical bar (MPD-12072).
+
 ## 0.10.0
 
 Breaking release: the Flutter host contract now matches the native SDKs (MPD-11767). Pins MeiliCarSDK 1.14.0 and meili-car-sdk 1.13.0 through `meili_flutter_car_ios` 0.7.0, `meili_flutter_car_android` 0.7.0 and `meili_flutter_car_platform_interface` 0.7.0.

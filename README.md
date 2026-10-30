@@ -24,7 +24,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  meili_flutter_car: ^0.10.0
+  meili_flutter_car: ^0.11.0
 ```
 
 Run:
